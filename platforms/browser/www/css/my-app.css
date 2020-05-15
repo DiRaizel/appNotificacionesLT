@@ -1,0 +1,45 @@
+.page-content{
+    background-image: url("../img/Fondo Sistema de turnos-Azul.jpg");
+/*    background-size: 100%;
+    background-repeat: no-repeat;*/
+}
+
+.icono{
+    font-size: 1.5em;
+}
+
+.formRegistro{
+    margin-bottom: 10px;
+}
+
+.divTD, .divTCI, .divTR{
+    text-align: center;
+}
+
+.barraNav{
+    text-align: center;
+}
+
+.iconoMenu{
+    margin-left: 10px;
+}
+
+.iconoNavD{
+    margin-right: 10px;   
+}
+
+.imgLogin{
+    height: 20vh;
+    width: 80vw;
+    /*padding-left: 25vw;*/
+    /*border-radius: 50%;*/
+    /*display: block;*/
+}
+
+/*---------------------------------Home---------------------------------------*/
+
+.logo{
+    /*padding-left: 20vw;*/
+    height: 15vh;
+    width: 100%;
+}

@@ -1,0 +1,29 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.appNotificacionesLT"
+    },
+    "cordova-plugin-mqtt": {
+      "PACKAGE_NAME": "com.appNotificacionesLT"
+    },
+    "cordova-plugin-local-notification": {
+      "ANDROID_SUPPORT_V4_VERSION": "26.+",
+      "PACKAGE_NAME": "com.appNotificacionesLT"
+    }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.appNotificacionesLT"
+    },
+    "cordova-plugin-badge": {
+      "PACKAGE_NAME": "com.appNotificacionesLT"
+    }
+  }
+}

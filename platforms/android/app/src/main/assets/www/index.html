@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <!-- Required meta tags-->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <!-- Color theme for statusbar -->
+        <meta name="theme-color" content="#2196f3">
+        <!-- Your app title -->
+        <title>Notificaciones L.T.</title>
+        <!-- Path to Framework7 Library Bundle CSS -->
+        <link rel="stylesheet" href="css/framework7.bundle.min.css">
+        <!-- Path to your custom app styles-->
+        <link rel="stylesheet" href="css/my-app.css">
+    </head>
+
+    <body>
+        <!-- App root element -->
+        <div id="appNotificacionesLT">
+
+            <div class="panel panel-left panel-cover panel-resizable">
+                <div class="block">
+                    <div class="list">
+                        <ul>
+                            <li>
+                                <a href="/home/" class="item-link item-content panel-close">
+                                    <div class="item-media"><i class="fas fa-home"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title">Inicio</div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/encuesta/" class="item-link item-content panel-close">
+                                    <div class="item-media"><i class="fas fa-file-alt"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title">Encuesta</div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/encuestas/" class="item-link item-content panel-close">
+                                    <div class="item-media"><i class="fas fa-paste"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title">Encuestas</div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li id="btnCerrarSesionMenu">
+                                <a onclick="cerrarSesion()" href="/login/" class="item-link item-content panel-close">
+                                    <div class="item-media"><i class="fas fa-power-off"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title">Cerrar sesion</div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statusbar overlay -->
+            <div class="statusbar"></div>
+
+            <!-- Your main view, should have "view-main" class -->
+            <div class="view view-main">
+
+                <!-- Initial Page, "data-name" contains page name -->
+                <div data-name="login" class="page" style="">
+
+                    <!-- Top Navbar -->
+
+                    <!-- Bottom Toolbar -->
+
+                    <!-- Scrollable page content -->
+                    <div class="page-content">
+                        <div class="block" style="padding: 0px;">
+                            <div class="row">
+                                <div class="col-100" style="text-align: center;">
+                                    <img class="imgLogin" src="img/LogoIngetronikVisualizador.png">
+                                    <h3>Login</h3>
+                                </div>
+                            </div>
+                            <div class="row block" style="align-items: center; margin: 0px;">
+                                <form class="col-100 list formLogin" id="formLogin" name="formLogin" method="POST" action="javascript:login(1)">
+                                    <ul style="background: transparent;">
+                                        <li>
+                                            <div class="col-100 item-content item-input">
+                                                <div class="item-inner">
+                                                    <div class="item-title item-label">Correo</div>
+                                                    <div class="item-input-wrap">
+                                                        <input type="email" id="correo" name="correo" placeholder="Correo" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="item-content item-input">
+                                                <div class="item-inner">
+                                                    <div class="item-title item-label" style="">Contraseña</div>
+                                                    <div class="item-input-wrap">
+                                                        <input type="password" id="password" name="password" placeholder="Contraseña" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <button type="submit" class="button button-fill button-round">Entrar</button>
+                                        </li>
+                                    </ul>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <script type="text/javascript" src="cordova.js"></script>
+        <!-- Path to Framework7 Library Bundle JS-->
+        <script type="text/javascript" src="js/framework7.bundle.min.js"></script>
+        <script type="text/javascript" src="js/fonts-awesome.js"></script>
+        <!-- Path to your app js-->
+        <script type="text/javascript" src="js/my-app.js"></script>
+
+    </body>
+
+</html>

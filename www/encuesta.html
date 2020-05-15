@@ -1,0 +1,202 @@
+<!-- Initial Page, "data-name" contains page name -->
+<div data-name="encuesta" class="page">
+
+    <!-- Top Navbar -->
+    <div class="navbar">
+        <div class="navbar-inner barraNav">
+            <div class="left"><a href="/home/" class="link back"><i class="fas fa-chevron-circle-left"></i></a></div>
+        </div>
+    </div>
+
+    <!-- Bottom Toolbar -->
+
+    <!-- Scrollable page content -->
+    <div class="page-content">
+        <div class="block">
+            <div class="divTR"><h1>Encuesta</h1></div>
+            <form class="list formEncuesta" id="formEncuesta" name="formEncuesta" method="POST" action="javascript:guardarEncuesta()">
+                <ul style="background: transparent;">
+                    <li>
+                        <div class="item-content item-input">
+                            <div class="item-inner">
+                                <div class="item-title item-label">Documento</div>
+                                <div class="item-input-wrap">
+                                    <input type="text" id="documento" name="documento" placeholder="Documento" required>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content item-input">
+                            <div class="item-inner">
+                                <div class="item-title item-label">Nombres</div>
+                                <div class="item-input-wrap">
+                                    <input type="text" id="nombres" name="nombres" placeholder="Nombres" required>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content item-input">
+                            <div class="item-inner">
+                                <div class="item-title item-label">Apellidos</div>
+                                <div class="item-input-wrap">
+                                    <input type="text" id="apellidos" name="apellidos" placeholder="Apellidos" required>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content item-input">
+                            <div class="item-inner">
+                                <div class="item-title item-label">Temperatura</div>
+                                <div class="item-input-wrap">
+                                    <input type="text" id="temperatura" name="temperatura" placeholder="Temperatura" required>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <h5>Preseta alguno de los siguientes sintomas?</h5>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheck('fiebre')" type="checkbox"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Fiebre</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheck('tos')" type="checkbox"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Tos</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheck('cefalea')" type="checkbox"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Cefalea</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheck('dolorGarganta')" type="checkbox"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Dolor de garganta</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheck('malestarGeneral')" type="checkbox"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Malestar general</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheck('dificultadRespiratoria')" type="checkbox"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Dificultad respiratoria</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheck('adinamia')" type="checkbox"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Adinamia</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheck('secrecionesNasales')" type="checkbox"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Secreciones nasales</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheck('diarrea')" type="checkbox"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Diarrea</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheck('ninguno')" type="checkbox"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Ninguno</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <h5>¿Ha estado en contacto con alguien que presente los anteriores sintomas en las ultimas 24 horas?</h5>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheckP1('Si')" type="checkbox" name="pregunta11"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Si</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheckP1('No')" type="checkbox" name="pregunta12"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">No</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <h5>¿Realizo el lavado o desinfeccion de las manos antes de ingresar a las instalaciones?</h5>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheckP2('Si')" type="checkbox" name="pregunta21"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Si</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheckP2('No')" type="checkbox" name="pregunta22"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">No</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <button type="submit" class="button button-fill button-round">Guardar</button>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+
+</div>
