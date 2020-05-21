@@ -1,7 +1,13 @@
 .page-content{
     background-image: url("../img/Fondo Sistema de turnos-Azul.jpg");
-/*    background-size: 100%;
-    background-repeat: no-repeat;*/
+    /*    background-size: 100%;
+        background-repeat: no-repeat;*/
+}
+
+.fondo{
+    background-image: url("../img/Fondo Sistema de turnos-Azul.jpg");
+    /*    background-size: 100%;
+        background-repeat: no-repeat;*/
 }
 
 .icono{
@@ -38,12 +44,8 @@
 
 /*---------------------------------Home---------------------------------------*/
 
-.imgSlider{
-    height: 20vh;
+.logo{
+    /*padding-left: 20vw;*/
+    height: 15vh;
     width: 100%;
 }
-
-.preloader{
-    color: white;
-}
-

@@ -57,11 +57,11 @@
                         </div>
                     </li>
                     <li>
-                        <h5>Preseta alguno de los siguientes sintomas?</h5>
+                        <h5>Presenta alguno de los siguientes sintomas?</h5>
                     </li>
                     <li>
                         <label class="item-checkbox item-content">
-                            <input onclick="activarCheck('fiebre')" type="checkbox"/>
+                            <input onclick="activarCheck('fiebre')" type="checkbox" name="fiebre1"/>
                             <i class="icon icon-checkbox"></i>
                             <div class="item-inner">
                                 <div class="item-title">Fiebre</div>
@@ -70,7 +70,7 @@
                     </li>
                     <li>
                         <label class="item-checkbox item-content">
-                            <input onclick="activarCheck('tos')" type="checkbox"/>
+                            <input onclick="activarCheck('tos')" type="checkbox" name="tos1"/>
                             <i class="icon icon-checkbox"></i>
                             <div class="item-inner">
                                 <div class="item-title">Tos</div>
@@ -79,7 +79,7 @@
                     </li>
                     <li>
                         <label class="item-checkbox item-content">
-                            <input onclick="activarCheck('cefalea')" type="checkbox"/>
+                            <input onclick="activarCheck('cefalea')" type="checkbox" name="cefalea1"/>
                             <i class="icon icon-checkbox"></i>
                             <div class="item-inner">
                                 <div class="item-title">Cefalea</div>
@@ -88,7 +88,7 @@
                     </li>
                     <li>
                         <label class="item-checkbox item-content">
-                            <input onclick="activarCheck('dolorGarganta')" type="checkbox"/>
+                            <input onclick="activarCheck('dolorGarganta')" type="checkbox" name="dolorGarganta1"/>
                             <i class="icon icon-checkbox"></i>
                             <div class="item-inner">
                                 <div class="item-title">Dolor de garganta</div>
@@ -97,7 +97,7 @@
                     </li>
                     <li>
                         <label class="item-checkbox item-content">
-                            <input onclick="activarCheck('malestarGeneral')" type="checkbox"/>
+                            <input onclick="activarCheck('malestarGeneral')" type="checkbox" name="malestarGeneral1"/>
                             <i class="icon icon-checkbox"></i>
                             <div class="item-inner">
                                 <div class="item-title">Malestar general</div>
@@ -106,7 +106,7 @@
                     </li>
                     <li>
                         <label class="item-checkbox item-content">
-                            <input onclick="activarCheck('dificultadRespiratoria')" type="checkbox"/>
+                            <input onclick="activarCheck('dificultadRespiratoria')" type="checkbox" name="dificultadRespiratoria1"/>
                             <i class="icon icon-checkbox"></i>
                             <div class="item-inner">
                                 <div class="item-title">Dificultad respiratoria</div>
@@ -115,7 +115,7 @@
                     </li>
                     <li>
                         <label class="item-checkbox item-content">
-                            <input onclick="activarCheck('adinamia')" type="checkbox"/>
+                            <input onclick="activarCheck('adinamia')" type="checkbox" name="adinamia1"/>
                             <i class="icon icon-checkbox"></i>
                             <div class="item-inner">
                                 <div class="item-title">Adinamia</div>
@@ -124,7 +124,7 @@
                     </li>
                     <li>
                         <label class="item-checkbox item-content">
-                            <input onclick="activarCheck('secrecionesNasales')" type="checkbox"/>
+                            <input onclick="activarCheck('secrecionesNasales')" type="checkbox" name="secrecionesNasales1"/>
                             <i class="icon icon-checkbox"></i>
                             <div class="item-inner">
                                 <div class="item-title">Secreciones nasales</div>
@@ -133,7 +133,7 @@
                     </li>
                     <li>
                         <label class="item-checkbox item-content">
-                            <input onclick="activarCheck('diarrea')" type="checkbox"/>
+                            <input onclick="activarCheck('diarrea')" type="checkbox" name="diarrea1"/>
                             <i class="icon icon-checkbox"></i>
                             <div class="item-inner">
                                 <div class="item-title">Diarrea</div>
@@ -142,7 +142,7 @@
                     </li>
                     <li>
                         <label class="item-checkbox item-content">
-                            <input onclick="activarCheck('ninguno')" type="checkbox"/>
+                            <input onclick="activarCheck('ninguno')" type="checkbox" name="ninguno1"/>
                             <i class="icon icon-checkbox"></i>
                             <div class="item-inner">
                                 <div class="item-title">Ninguno</div>
@@ -193,6 +193,154 @@
                     </li>
                     <li>
                         <button type="submit" class="button button-fill button-round">Guardar</button>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+
+    <div class="popup popup-antecedentes fondo" style="overflow: auto;">
+        <div class="block">
+            <div class="divTR"><h3>Elige los antecedentes que apliquen a tu caso</h3></div>
+            <form class="list formAntecedentes" id="formAntecedentes" name="formAntecedentes" method="POST" action="javascript:cerrarPopupAntecedentes()">
+                <ul style="background: transparent;">
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheckP('diabetes')" type="checkbox" name="diabetes1"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Diabetes</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheckP('hipertencion')" type="checkbox" name="hipertencion1"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Hipertencion</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheckP('enfermedadesCorazon')" type="checkbox" name="enfermedadesCorazon1"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Enfemedades del corazon</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheckP('fallaRenal')" type="checkbox" name="fallaRenal1"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Falla renal que requiere dialisis</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheckP('enfermedadPulmonar')" type="checkbox" name="enfermedadPulmonar1"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Enfermedad pulmonar EPOC</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheckP('hipotiroidismo')" type="checkbox" name="hipotiroidismo1"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Hipotiroidismo</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheckP('otroProblemasPulmonares')" type="checkbox" name="otroProblemasPulmonares1"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Otros problemas pulmonares</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheckP('enfermedadesAutoinmunes')" type="checkbox" name="enfermedadesAutoinmunes1"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Enfermedades autoinmunes</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheckP('corticoides')" type="checkbox" name="corticoides1"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Corticoides reciente</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheckP('inmunodeficiencia')" type="checkbox" name="inmunodeficiencia1"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Deficiencia inmunologica</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheckP('cancer')" type="checkbox" name="cancer1"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Cancer de cualquier tipo</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheckP('sobrepeso')" type="checkbox" name="sobrepeso1"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Sobrepeso u obesidad</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheckP('desnutricion')" type="checkbox" name="desnutricion1"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Desnutricion</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheckP('fumador')" type="checkbox" name="fumador1"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Fumador</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input onclick="activarCheckP('ningunoA')" type="checkbox" name="ningunoA1"/>
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Ninguno de los anteriores</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <button type="submit" class="button button-fill button-round">Hecho</button>
                     </li>
                 </ul>
             </form>

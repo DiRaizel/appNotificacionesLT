@@ -23,7 +23,9 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
-    <preference name="KeepRunning" value="true"/>
+    <!-- poder enviar peticiones http en versiones superiores de android -->
+    <preference name="android-usesCleartextTraffic" value="true" />
+    <!--<preference name="KeepRunning" value="true"/>-->
     <icon src="www/img/logo.png" />
     <preference name="android-minSdkVersion" value="19" />
     <preference name="android-targetSdkVersion" value="28" />

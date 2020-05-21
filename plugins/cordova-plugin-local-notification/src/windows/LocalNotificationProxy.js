@@ -68,6 +68,7 @@ exports.ready = function () {
  */
 exports.check = function (success, error) {
     var granted = impl.hasPermission();
+
     success(granted);
 };
 
@@ -212,6 +213,7 @@ exports.cancelAll = function (success, error) {
  */
 exports.type = function (success, error, args) {
     var type = impl.type(args[0]);
+
     success(type);
 };
 
@@ -220,12 +222,40 @@ exports.type = function (success, error, args) {
  *
  * @param [ Function ] success Success callback
  * @param [ Function ] error   Error callback
- * @param [ Array ]    args    Interface arguments
  *
  * @return [ Void ]
  */
-exports.ids = function (success, error, args) {
-    var ids = impl.ids(args[0]) || [];
+exports.ids = function (success, error) {
+    var ids = impl.ids() || [];
+
+    success(Array.from(ids));
+};
+
+/**
+ * List of all scheduled notification ids.
+ *
+ * @param [ Function ] success Success callback
+ * @param [ Function ] error   Error callback
+ *
+ * @return [ Void ]
+ */
+exports.scheduledIds = function (success, error) {
+    var ids = impl.scheduledIds() || [];
+
+    success(Array.from(ids));
+};
+
+/**
+ * List of all triggered notification ids.
+ *
+ * @param [ Function ] success Success callback
+ * @param [ Function ] error   Error callback
+ *
+ * @return [ Void ]
+ */
+exports.triggeredIds = function (success, error) {
+    var ids = impl.triggeredIds() || [];
+
     success(Array.from(ids));
 };
 
@@ -240,6 +270,7 @@ exports.ids = function (success, error, args) {
  */
 exports.notification = function (success, error, args) {
     var obj = impl.notification(args[0]);
+
     success(exports.clone(obj));
 };
 
@@ -253,42 +284,37 @@ exports.notification = function (success, error, args) {
  * @return [ Void ]
  */
 exports.notifications = function (success, error, args) {
-    var objs = impl.notifications(args[0], args[1]) || [];
+    var objs = impl.notifications(args) || [];
+
     success(exports.cloneAll(objs));
 };
 
 /**
- * Manage action groups.
+ * List of all scheduled notifications.
  *
  * @param [ Function ] success Success callback
  * @param [ Function ] error   Error callback
- * @param [ Array ]    args    Interface arguments
  *
  * @return [ Void ]
  */
-exports.actions = function (success, error, args) {
-    var ActionGroup = LocalNotification.ActionGroup,
-        code        = args[0],
-        id          = args[1],
-        res         = [],
-        list, group;
+exports.scheduledNotifications = function (success, error) {
+    var objs = impl.scheduledNotifications() || [];
 
-    switch (code) {
-        case 0:
-            list  = exports.parseActions({ actions:args[2] });
-            group = new ActionGroup(id, list);
+    success(exports.cloneAll(objs));
+};
 
-            ActionGroup.register(group);
-            break;
-        case 1:
-            ActionGroup.unregister(id);
-            break;
-        case 2:
-            res.push(ActionGroup.isRegistered(id));
-            break;
-    }
+/**
+ * List of all triggered notifications.
+ *
+ * @param [ Function ] success Success callback
+ * @param [ Function ] error   Error callback
+ *
+ * @return [ Void ]
+ */
+exports.triggeredNotifications = function (success, error) {
+    var objs = impl.triggeredNotifications() || [];
 
-    success.apply(this, res);
+    success(exports.cloneAll(objs));
 };
 
 /**
@@ -325,7 +351,7 @@ exports.clicked = function (xml, input) {
  */
 exports.fireEvent = function (event, toast, data) {
     var meta   = Object.assign({ event: event }, data),
-        plugin = cordova.plugins.notification.local;
+        plugin = cordova.plugins.notification.local.core;
 
     if (!ready) {
         queue.push(arguments);
@@ -348,10 +374,6 @@ exports.fireEvent = function (event, toast, data) {
  */
 exports.cloneAll = function (objs) {
     var clones = [];
-
-    if (!Array.isArray(objs)) {
-        objs = Array.from(objs);
-    }
 
     for (var obj of objs) {
         clones.push(exports.clone(obj));
@@ -466,17 +488,11 @@ exports.parseEvery = function (spec) {
  * @return [ Array<LocalNotification.Action> ]
  */
 exports.parseActions = function (obj) {
-    var spec    = obj.actions,
-        actions = [], btn;
+    var actions = [], btn;
 
-    if (!spec) return actions;
+    if (!obj.actions) return actions;
 
-    if (typeof spec === 'string') {
-        var group = LocalNotification.ActionGroup.lookup(spec);
-        return group ? group.actions : actions;
-    }
-
-    for (var action of spec) {
+    for (var action of obj.actions) {
         if (!action.type || action.type == 'button') {
             btn = new LocalNotification.Toast.Button();
         } else

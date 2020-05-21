@@ -1,24 +1,27 @@
 {
-  "_from": "git+https://github.com/katzer/cordova-plugin-local-notifications.git",
-  "_id": "cordova-plugin-local-notification@0.9.0-beta.3",
+  "_from": "cordova-plugin-local-notification",
+  "_id": "cordova-plugin-local-notification@0.9.0-beta.2",
   "_inBundle": false,
-  "_integrity": "",
+  "_integrity": "sha512-63n77K1pt8dnbWnNR8QWETi9Glezi1bvNHvHWmGNIOv0xCb0phZnm+Ku49BQ+omwe8Z5voMvrA4I03SYPpv38w==",
   "_location": "/cordova-plugin-local-notification",
   "_phantomChildren": {},
   "_requested": {
-    "type": "git",
-    "raw": "https://github.com/katzer/cordova-plugin-local-notifications",
-    "rawSpec": "https://github.com/katzer/cordova-plugin-local-notifications",
-    "saveSpec": "git+https://github.com/katzer/cordova-plugin-local-notifications.git",
-    "fetchSpec": "https://github.com/katzer/cordova-plugin-local-notifications.git",
-    "gitCommittish": null
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-plugin-local-notification",
+    "name": "cordova-plugin-local-notification",
+    "escapedName": "cordova-plugin-local-notification",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
   },
   "_requiredBy": [
     "#USER",
     "/"
   ],
-  "_resolved": "git+https://github.com/katzer/cordova-plugin-local-notifications.git#caff55ec758fdf298029ae98aff7f6a8a097feac",
-  "_spec": "https://github.com/katzer/cordova-plugin-local-notifications",
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-local-notification/-/cordova-plugin-local-notification-0.9.0-beta.2.tgz",
+  "_shasum": "e3a0b4a35d11f95bb4f1e367d9baee9909cca695",
+  "_spec": "cordova-plugin-local-notification",
   "_where": "C:\\xampp\\htdocs\\appNotificacionesLT",
   "author": {
     "name": "Sebastián Katzer"
@@ -76,5 +79,5 @@
     "type": "git",
     "url": "git+https://github.com/katzer/cordova-plugin-local-notifications.git"
   },
-  "version": "0.9.0-beta.3"
+  "version": "0.9.0-beta.2"
 }

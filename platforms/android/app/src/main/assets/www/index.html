@@ -24,7 +24,7 @@
                 <div class="block">
                     <div class="list">
                         <ul>
-                            <li>
+                            <li id="btnHomeMenu">
                                 <a href="/home/" class="item-link item-content panel-close">
                                     <div class="item-media"><i class="fas fa-home"></i></div>
                                     <div class="item-inner">
@@ -32,22 +32,22 @@
                                     </div>
                                 </a>
                             </li>
-                            <li>
-                                <a href="/encuesta/" class="item-link item-content panel-close">
-                                    <div class="item-media"><i class="fas fa-file-alt"></i></div>
+                            <li id="btnHome2Menu">
+                                <a href="/home2/" class="item-link item-content panel-close">
+                                    <div class="item-media"><i class="fas fa-home"></i></div>
                                     <div class="item-inner">
-                                        <div class="item-title">Encuesta</div>
+                                        <div class="item-title">Inicio</div>
                                     </div>
                                 </a>
                             </li>
-                            <li>
-                                <a href="/encuestas/" class="item-link item-content panel-close">
-                                    <div class="item-media"><i class="fas fa-paste"></i></div>
-                                    <div class="item-inner">
-                                        <div class="item-title">Encuestas</div>
-                                    </div>
-                                </a>
-                            </li>
+                            <!--                            <li id="btnEncuestaMenu">
+                                                            <a href="/encuesta/" class="item-link item-content panel-close">
+                                                                <div class="item-media"><i class="fas fa-file-alt"></i></div>
+                                                                <div class="item-inner">
+                                                                    <div class="item-title">Encuesta</div>
+                                                                </div>
+                                                            </a>
+                                                        </li>-->
                             <li id="btnCerrarSesionMenu">
                                 <a onclick="cerrarSesion()" href="/login/" class="item-link item-content panel-close">
                                     <div class="item-media"><i class="fas fa-power-off"></i></div>
@@ -126,6 +126,7 @@
         <script type="text/javascript" src="js/framework7.bundle.min.js"></script>
         <script type="text/javascript" src="js/fonts-awesome.js"></script>
         <!-- Path to your app js-->
+        <script type="text/javascript" src="js/jquery.js"></script>
         <script type="text/javascript" src="js/my-app.js"></script>
 
     </body>

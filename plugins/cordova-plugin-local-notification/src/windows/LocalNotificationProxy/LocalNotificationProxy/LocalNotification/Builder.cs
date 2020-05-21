@@ -21,7 +21,6 @@
 
 namespace LocalNotificationProxy.LocalNotification
 {
-    using System.Diagnostics;
     using Microsoft.Toolkit.Uwp.Notifications;
     using Windows.UI.Notifications;
 
@@ -160,8 +159,6 @@ namespace LocalNotificationProxy.LocalNotification
             var xml = toast.GetXml();
             var at = this.request.TriggerDate;
             ScheduledToastNotification notification;
-
-            Debug.WriteLine("[local-notification] Next trigger at: " + at);
 
             if (!at.HasValue)
             {

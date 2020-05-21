@@ -7,6 +7,14 @@
     "is_top_level": true,
     "variables": {}
   },
+  "cordova-plugin-insomnia": {
+    "source": {
+      "type": "registry",
+      "id": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
   "cordova-plugin-mqtt": {
     "source": {
       "type": "registry",
@@ -18,12 +26,10 @@
   "cordova-plugin-local-notification": {
     "source": {
       "type": "registry",
-      "id": "https://github.com/katzer/cordova-plugin-local-notifications"
+      "id": "cordova-plugin-local-notification"
     },
     "is_top_level": true,
-    "variables": {
-      "ANDROID_SUPPORT_V4_VERSION": "26.+"
-    }
+    "variables": {}
   },
   "cordova-plugin-device": {
     "source": {

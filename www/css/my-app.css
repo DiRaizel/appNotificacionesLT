@@ -1,7 +1,13 @@
 .page-content{
     background-image: url("../img/Fondo Sistema de turnos-Azul.jpg");
-/*    background-size: 100%;
-    background-repeat: no-repeat;*/
+    /*    background-size: 100%;
+        background-repeat: no-repeat;*/
+}
+
+.fondo{
+    background-image: url("../img/Fondo Sistema de turnos-Azul.jpg");
+    /*    background-size: 100%;
+        background-repeat: no-repeat;*/
 }
 
 .icono{

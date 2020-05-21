@@ -146,23 +146,8 @@ document.addEventListener('deviceready', function () {
     //
     setTimeout("show5()", 1000);
     //
-    if (localStorage.idUsu === undefined) {
-        //
-        app.views.main.router.navigate('/login/');
-    } else {
-        //
-        if (localStorage.rol === 'usuario') {
-            //
-            $$('#btnHomeMenu').css('display', 'none');
-            $$('#btnHome2Menu').css('display', '');
-            app.views.main.router.navigate('/home2/');
-        } else {
-            //
-            $$('#btnHomeMenu').css('display', '');
-            $$('#btnHome2Menu').css('display', 'none');
-            app.views.main.router.navigate('/home/');
-        }
-    }
+    window.plugins.insomnia.keepAwake();
+//    window.plugins.insomnia.allowSleepAgain();
     //
     cordova.plugins.CordovaMqTTPlugin.connect({
         url: 'tcp://165.227.89.32', //a public broker used for testing purposes only. Try using a self hosted broker for production.
@@ -177,7 +162,7 @@ document.addEventListener('deviceready', function () {
         username: "fabian",
         password: '1234',
         success: function (s) {
-            subscribirse();
+            //
         },
         error: function (e) {
 //            console.log('error: ' + e);
@@ -186,6 +171,23 @@ document.addEventListener('deviceready', function () {
 //            console.log('conexion perdida: ' + e);
         }
     });
+    //
+    if (localStorage.idUsu !== undefined) {
+        //
+        if (localStorage.rol === 'usuario') {
+            //
+            desubscribirse();
+            $$('#btnHomeMenu').css('display', 'none');
+            $$('#btnHome2Menu').css('display', '');
+            app.views.main.router.navigate('/home2/');
+        } else {
+            //
+            subscribirse();
+            $$('#btnHomeMenu').css('display', '');
+            $$('#btnHome2Menu').css('display', 'none');
+            app.views.main.router.navigate('/home/');
+        }
+    }
     //
     cordova.plugins.notification.local.setDefaults({
         led: {color: '#FFFFFF', on: 500, off: 500},
@@ -207,8 +209,8 @@ function subscribirse() {
                     //
 //                    alert(payload);
                     cordova.plugins.notification.local.schedule({
-                        title: 'Alerta',
-                        text: payload,
+                        title: 'Alerta!',
+                        text: 'Personal con temperatura elevada de ' + payload,
                         foreground: true,
 //                        smallIcon: 'res://calendar',
                         icon: 'img/logo.png'
@@ -222,13 +224,30 @@ function subscribirse() {
     });
 }
 
+//
+function desubscribirse() {
+    //
+    cordova.plugins.CordovaMqTTPlugin.unsubscribe({
+        topic: 'appNotificacionesLT/notificaciones',
+        success: function (s) {
+            //
+        },
+        error: function (e) {
+            //
+        }
+    });
+}
+
 //----------------------------------Login---------------------------------------
 
 //
 function login(valor) {
     //
+//    let formData = new FormData($$("#formLogin")[0]);
     var formElement = document.getElementById("formLogin");
     formData = new FormData(formElement);
+    console.log(JSON.stringify(formData));
+    console.log($('#correo').val());
     //
     app.request({
         url: urlServidor + 'appNotificacionesLTPhp/Read/login',
@@ -251,10 +270,12 @@ function login(valor) {
                 //
                 if (data.rol === 'usuario') {
                     //
+                    desubscribirse();
                     $$('#btnHomeMenu').css('display', 'none');
                     $$('#btnHome2Menu').css('display', '');
                 } else {
                     //
+                    subscribirse();
                     $$('#btnHomeMenu').css('display', '');
                     $$('#btnHome2Menu').css('display', 'none');
                 }
@@ -386,7 +407,7 @@ function cargarAlertas() {
                 //
             } else {
                 //
-                campos1 = '<li style="text-align: center;"><h3>No hay encuestados el dia de hoy</h3></li>';
+//                campos1 = '<li style="text-align: center;"><h3>No hay alertas el dia de hoy!</h3></li>';
             }
         },
         error: function (xhr) {
@@ -441,6 +462,7 @@ function validarEncuesta() {
 
 //----------------------------------Encuesta------------------------------------
 
+//
 var fiebre = 2;
 var tos = 2;
 var cefalea = 2;
@@ -460,6 +482,9 @@ function activarCheck(valor) {
         if (fiebre === 1) {
             fiebre = 2;
         } else {
+            //
+            deshabilitarNinguno();
+            //
             fiebre = 1;
         }
     } else if (valor === 'tos') {
@@ -467,6 +492,9 @@ function activarCheck(valor) {
         if (tos === 1) {
             tos = 2;
         } else {
+            //
+            deshabilitarNinguno();
+            //
             tos = 1;
         }
     } else if (valor === 'cefalea') {
@@ -474,6 +502,9 @@ function activarCheck(valor) {
         if (cefalea === 1) {
             cefalea = 2;
         } else {
+            //
+            deshabilitarNinguno();
+            //
             cefalea = 1;
         }
     } else if (valor === 'dolorGarganta') {
@@ -481,6 +512,9 @@ function activarCheck(valor) {
         if (dolorGarganta === 1) {
             dolorGarganta = 2;
         } else {
+            //
+            deshabilitarNinguno();
+            //
             dolorGarganta = 1;
         }
     } else if (valor === 'malestarGeneral') {
@@ -488,6 +522,9 @@ function activarCheck(valor) {
         if (malestarGeneral === 1) {
             malestarGeneral = 2;
         } else {
+            //
+            deshabilitarNinguno();
+            //
             malestarGeneral = 1;
         }
     } else if (valor === 'dificultadRespiratoria') {
@@ -495,6 +532,9 @@ function activarCheck(valor) {
         if (dificultadRespiratoria === 1) {
             dificultadRespiratoria = 2;
         } else {
+            //
+            deshabilitarNinguno();
+            //
             dificultadRespiratoria = 1;
         }
     } else if (valor === 'adinamia') {
@@ -502,6 +542,9 @@ function activarCheck(valor) {
         if (adinamia === 1) {
             adinamia = 2;
         } else {
+            //
+            deshabilitarNinguno();
+            //
             adinamia = 1;
         }
     } else if (valor === 'secrecionesNasales') {
@@ -509,6 +552,9 @@ function activarCheck(valor) {
         if (secrecionesNasales === 1) {
             secrecionesNasales = 2;
         } else {
+            //
+            deshabilitarNinguno();
+            //
             secrecionesNasales = 1;
         }
     } else if (valor === 'diarrea') {
@@ -516,6 +562,9 @@ function activarCheck(valor) {
         if (diarrea === 1) {
             diarrea = 2;
         } else {
+            //
+            deshabilitarNinguno();
+            //
             diarrea = 1;
         }
     } else if (valor === 'ninguno') {
@@ -523,8 +572,39 @@ function activarCheck(valor) {
         if (ninguno === 1) {
             ninguno = 2;
         } else {
+            //
+            $$('[name="fiebre1"]').prop('checked', false);
+            $$('[name="tos1"]').prop('checked', false);
+            $$('[name="cefalea1"]').prop('checked', false);
+            $$('[name="dolorGarganta1"]').prop('checked', false);
+            $$('[name="malestarGeneral1"]').prop('checked', false);
+            $$('[name="dificultadRespiratoria1"]').prop('checked', false);
+            $$('[name="adinamia1"]').prop('checked', false);
+            $$('[name="secrecionesNasales1"]').prop('checked', false);
+            $$('[name="diarrea1"]').prop('checked', false);
+            //
+            fiebre = 2;
+            tos = 2;
+            cefalea = 2;
+            dolorGarganta = 2;
+            malestarGeneral = 2;
+            dificultadRespiratoria = 2;
+            adinamia = 2;
+            secrecionesNasales = 2;
+            diarrea = 2;
+            //
             ninguno = 1;
         }
+    }
+}
+
+//
+function deshabilitarNinguno() {
+    //
+    if (ninguno === 1) {
+        //
+        $$('[name="ninguno1"]').prop('checked', false);
+        ninguno = 2;
     }
 }
 
@@ -563,72 +643,347 @@ function activarCheckP2(valor) {
 }
 
 //
+var controlG = false;
+
+//
 function guardarEncuesta() {
     //
-    var formElement = document.getElementById("formEncuesta");
-    formData = new FormData(formElement);
-    //
-    formData.append('idUsu', localStorage.idUsu);
-    formData.append('empresa', localStorage.empresa);
-    //
-    formData.append('fiebre', fiebre);
-    formData.append('tos', tos);
-    formData.append('cefalea', cefalea);
-    formData.append('dolorGarganta', dolorGarganta);
-    formData.append('malestarGeneral', malestarGeneral);
-    formData.append('dificultadRespiratoria', dificultadRespiratoria);
-    formData.append('adinamia', adinamia);
-    formData.append('secrecionesNasales', secrecionesNasales);
-    formData.append('diarrea', diarrea);
-    formData.append('ninguno', ninguno);
-    //
-    formData.append('pregunta1', pregunta1);
-    formData.append('pregunta2', pregunta2);
-    //
-    app.request({
-        url: urlServidor + 'appNotificacionesLTPhp/Create/guardarEncuesta',
-        data: formData,
-        method: "post",
-        beforeSend: function () {
+    if (diarrea === 1 || secrecionesNasales === 1 || adinamia === 1 || fiebre === 1 || tos === 1 || cefalea === 1 || dolorGarganta === 1 || malestarGeneral === 1 || dificultadRespiratoria === 1) {
+        //
+        if (controlG === false) {
             //
-            app.preloader.show();
-        },
-        success: function (rsp) {
-            //
-            var data = JSON.parse(rsp);
-            //
-            if (data.estado == 'guardada') {
+            app.popup.open('.popup-antecedentes', true);
+        }
+    }
+    //
+    if (controlG) {
+        //
+        var formElement = document.getElementById("formEncuesta");
+        formData = new FormData(formElement);
+        //
+        formData.append('idUsu', localStorage.idUsu);
+        formData.append('empresa', localStorage.empresa);
+        //
+        formData.append('fiebre', fiebre);
+        formData.append('tos', tos);
+        formData.append('cefalea', cefalea);
+        formData.append('dolorGarganta', dolorGarganta);
+        formData.append('malestarGeneral', malestarGeneral);
+        formData.append('dificultadRespiratoria', dificultadRespiratoria);
+        formData.append('adinamia', adinamia);
+        formData.append('secrecionesNasales', secrecionesNasales);
+        formData.append('diarrea', diarrea);
+        formData.append('ninguno', ninguno);
+        //
+        formData.append('pregunta1', pregunta1);
+        formData.append('pregunta2', pregunta2);
+        //
+        formData.append('diabetes', diabetes);
+        formData.append('hipertencion', hipertencion);
+        formData.append('enfermedadesCorazon', enfermedadesCorazon);
+        formData.append('fallaRenal', fallaRenal);
+        formData.append('enfermedadPulmonar', enfermedadPulmonar);
+        formData.append('hipotiroidismo', hipotiroidismo);
+        formData.append('otroProblemasPulmonares', otroProblemasPulmonares);
+        formData.append('enfermedadesAutoinmunes', enfermedadesAutoinmunes);
+        formData.append('corticoides', corticoides);
+        formData.append('inmunodeficiencia', inmunodeficiencia);
+        formData.append('cancer', cancer);
+        formData.append('sobrepeso', sobrepeso);
+        formData.append('desnutricion', desnutricion);
+        formData.append('fumador', fumador);
+        formData.append('ningunoA', ningunoA);
+        //
+        app.request({
+            url: urlServidor + 'appNotificacionesLTPhp/Create/guardarEncuesta',
+            data: formData,
+            method: "post",
+            beforeSend: function () {
                 //
-                setTimeout(function () {
+                app.preloader.show();
+            },
+            success: function (rsp) {
+                //
+                controlG = false;
+                var data = JSON.parse(rsp);
+                //
+                if (data.estado == 'guardada') {
+                    //
+                    setTimeout(function () {
+                        //
+                        app.preloader.hide();
+                        //
+                        var temp = parseFloat($$('#temperatura').val());
+                        //
+                        modal = app.dialog.create({
+                            title: 'Alerta!',
+                            text: 'Encuesta guardada!',
+                            buttons: [{text: 'OK'}]
+                        }).open();
+                        //
+                        if (localStorage.rol === 'usuario') {
+                            //
+                            if (temp > 37) {
+                                //
+                                enviarAlarma(temp);
+                            }
+                            //
+                            app.views.main.router.navigate('/home2/');
+                        } else {
+                            //
+                            app.views.main.router.navigate('/home/');
+                        }
+                    }, 500);
+                } else {
                     //
                     app.preloader.hide();
-                    //
                     modal = app.dialog.create({
                         title: 'Alerta!',
-                        text: 'Encuesta guardada!',
+                        text: 'Error al guardar la encuesta!',
                         buttons: [{text: 'OK'}]
                     }).open();
-                    //
-                    if (localStorage.rol === 'usuario') {
-                        //
-                        app.views.main.router.navigate('/home2/');
-                    } else {
-                        //
-                        app.views.main.router.navigate('/home/');
-                    }
-                }, 500);
-            } else {
-                //
-                app.preloader.hide();
-                modal = app.dialog.create({
-                    title: 'Alerta!',
-                    text: 'Error al guardar la encuesta!',
-                    buttons: [{text: 'OK'}]
-                }).open();
+                }
+            },
+            error: function (xhr) {
+                controlG = false;
+                console.log(xhr);
             }
+        });
+    }
+}
+
+//
+var diabetes = 2;
+var hipertencion = 2;
+var enfermedadesCorazon = 2;
+var fallaRenal = 2;
+var enfermedadPulmonar = 2;
+var hipotiroidismo = 2;
+var otroProblemasPulmonares = 2;
+var enfermedadesAutoinmunes = 2;
+var corticoides = 2;
+var inmunodeficiencia = 2;
+var cancer = 2;
+var sobrepeso = 2;
+var desnutricion = 2;
+var fumador = 2;
+var ningunoA = 2;
+
+//
+function activarCheckP(valor) {
+    //
+    if (valor === 'diabetes') {
+        //
+        if (diabetes === 1) {
+            diabetes = 2;
+        } else {
+            //
+            deshabilitarNingunoA();
+            //
+            diabetes = 1;
+        }
+    } else if (valor === 'hipertencion') {
+        //
+        if (hipertencion === 1) {
+            hipertencion = 2;
+        } else {
+            //
+            deshabilitarNingunoA();
+            //
+            hipertencion = 1;
+        }
+    } else if (valor === 'enfermedadesCorazon') {
+        //
+        if (enfermedadesCorazon === 1) {
+            enfermedadesCorazon = 2;
+        } else {
+            //
+            deshabilitarNingunoA();
+            //
+            enfermedadesCorazon = 1;
+        }
+    } else if (valor === 'fallaRenal') {
+        //
+        if (fallaRenal === 1) {
+            fallaRenal = 2;
+        } else {
+            //
+            deshabilitarNingunoA();
+            //
+            fallaRenal = 1;
+        }
+    } else if (valor === 'enfermedadPulmonar') {
+        //
+        if (enfermedadPulmonar === 1) {
+            enfermedadPulmonar = 2;
+        } else {
+            //
+            deshabilitarNingunoA();
+            //
+            enfermedadPulmonar = 1;
+        }
+    } else if (valor === 'hipotiroidismo') {
+        //
+        if (hipotiroidismo === 1) {
+            hipotiroidismo = 2;
+        } else {
+            //
+            deshabilitarNingunoA();
+            //
+            hipotiroidismo = 1;
+        }
+    } else if (valor === 'otroProblemasPulmonares') {
+        //
+        if (otroProblemasPulmonares === 1) {
+            otroProblemasPulmonares = 2;
+        } else {
+            //
+            deshabilitarNingunoA();
+            //
+            otroProblemasPulmonares = 1;
+        }
+    } else if (valor === 'enfermedadesAutoinmunes') {
+        //
+        if (enfermedadesAutoinmunes === 1) {
+            enfermedadesAutoinmunes = 2;
+        } else {
+            //
+            deshabilitarNingunoA();
+            //
+            enfermedadesAutoinmunes = 1;
+        }
+    } else if (valor === 'corticoides') {
+        //
+        if (corticoides === 1) {
+            corticoides = 2;
+        } else {
+            //
+            deshabilitarNingunoA();
+            //
+            corticoides = 1;
+        }
+    } else if (valor === 'inmunodeficiencia') {
+        //
+        if (inmunodeficiencia === 1) {
+            inmunodeficiencia = 2;
+        } else {
+            //
+            deshabilitarNingunoA();
+            //
+            inmunodeficiencia = 1;
+        }
+    } else if (valor === 'cancer') {
+        //
+        if (cancer === 1) {
+            cancer = 2;
+        } else {
+            //
+            deshabilitarNingunoA();
+            //
+            cancer = 1;
+        }
+    } else if (valor === 'sobrepeso') {
+        //
+        if (sobrepeso === 1) {
+            sobrepeso = 2;
+        } else {
+            //
+            deshabilitarNingunoA();
+            //
+            sobrepeso = 1;
+        }
+    } else if (valor === 'desnutricion') {
+        //
+        if (desnutricion === 1) {
+            desnutricion = 2;
+        } else {
+            //
+            deshabilitarNingunoA();
+            //
+            desnutricion = 1;
+        }
+    } else if (valor === 'fumador') {
+        //
+        if (fumador === 1) {
+            fumador = 2;
+        } else {
+            //
+            deshabilitarNingunoA();
+            //
+            fumador = 1;
+        }
+    } else if (valor === 'ningunoA') {
+        //
+        if (ningunoA === 1) {
+            ningunoA = 2;
+        } else {
+            //
+            $$('[name="diabetes1"]').prop('checked', false);
+            $$('[name="hipertencion1"]').prop('checked', false);
+            $$('[name="enfermedadesCorazon1"]').prop('checked', false);
+            $$('[name="fallaRenal1"]').prop('checked', false);
+            $$('[name="enfermedadPulmonar1"]').prop('checked', false);
+            $$('[name="hipotiroidismo1"]').prop('checked', false);
+            $$('[name="otroProblemasPulmonares1"]').prop('checked', false);
+            $$('[name="enfermedadesAutoinmunes1"]').prop('checked', false);
+            $$('[name="corticoides1"]').prop('checked', false);
+            $$('[name="inmunodeficiencia1"]').prop('checked', false);
+            $$('[name="cancer1"]').prop('checked', false);
+            $$('[name="sobrepeso1"]').prop('checked', false);
+            $$('[name="desnutricion1"]').prop('checked', false);
+            $$('[name="fumador1"]').prop('checked', false);
+            //
+            diabetes = 2;
+            hipertencion = 2;
+            enfermedadesCorazon = 2;
+            fallaRenal = 2;
+            enfermedadPulmonar = 2;
+            hipotiroidismo = 2;
+            otroProblemasPulmonares = 2;
+            enfermedadesAutoinmunes = 2;
+            corticoides = 2;
+            inmunodeficiencia = 2;
+            cancer = 2;
+            sobrepeso = 2;
+            desnutricion = 2;
+            fumador = 2;
+            //
+            ningunoA = 1;
+        }
+    }
+}
+
+//
+function deshabilitarNingunoA() {
+    //
+    if (ningunoA === 1) {
+        //
+        $$('[name="ningunoA1"]').prop('checked', false);
+        ningunoA = 2;
+    }
+}
+
+//
+function cerrarPopupAntecedentes() {
+    //
+    controlG = true;
+    app.popup.close('.popup-antecedentes', true);
+    guardarEncuesta();
+}
+
+//
+function enviarAlarma(valor) {
+    //
+    cordova.plugins.CordovaMqTTPlugin.publish({
+        topic: 'appNotificacionesLT/notificaciones',
+        payload: valor,
+        qos: 0,
+        retain: false,
+        success: function (s) {
+            //
         },
-        error: function (xhr) {
-            console.log(xhr);
+        error: function (e) {
+            //alert("err!! something is wrong. check the console")
         }
     });
 }

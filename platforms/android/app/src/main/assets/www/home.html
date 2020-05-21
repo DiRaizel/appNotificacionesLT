@@ -11,11 +11,9 @@
                 <a class="link icon-only searchbar-enable" data-searchbar=".searchbar">
                     <i style="" class="fas fa-search"></i>
                 </a>
-<!--                <a href="#" class="iconoNavD popup-open" data-popup=".popup-categoriaEmpresa"><i style="" class="fas fa-grip-horizontal"></i></a>
-                <a  href="#" class="iconoNavD popup-open" data-popup=".popup-ciudadInicio"><i style="" class="fas fa-map-marked-alt"></i></a>-->
             </div>
             <!--Searchbar is a direct child of "navbar-inner"-->
-            <form class="searchbar searchbar-expandable searchbar-init" data-search-container=".listEmpresasHome" data-search-item="li" data-search-in=".item-title">
+            <form class="searchbar searchbar-expandable searchbar-init" data-search-container=".listEncuestados" data-search-item="li" data-search-in=".item-title">
                 <div class="searchbar-inner">
                     <div class="searchbar-input-wrap">
                         <input type="search" placeholder="Buscar" />
@@ -33,43 +31,38 @@
     <!-- Scrollable page content -->
     <div class="page-content">
         <div class="block" style="margin-top: 0px;">
-            <div class="card">
-                <div class="card-content">
-                    <!-- swiper properties in JSON format in data-swiper attribute -->
-                    
+            <div class="row">
+                <div class="list" style="width: 100%; margin-bottom: 0px; margin-top: 15px;">
+                    <ul id="encuesta" style="background: transparent;">
+
+                    </ul>
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card" style="background-color: red;">
                 <div class="card-content">
-                    <div class="list media-list listEmpresasHome">
-                        <ul style="" id="empresasHome">
+                    <div class="list media-list listAlertas">
+                        <ul id="alertas">
 
                         </ul>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+            
+            <div class="card" style="background: transparent;">
+                <div class="card-content">
+                    <div class="list media-list listEncuestados">
+                        <ul id="encuestados">
 
-    <div class="popup popup-ciudadInicio" style="">
-        <div class="block">
-            <div class="divTCI">
-                <h2 style="">Selecciona ciudad</h2>
+                        </ul>
+                    </div>
+                </div>
             </div>
             
-        </div>
-    </div>
-
-    <div class="popup popup-categoriaEmpresa" style="">
-        <div class="block">
-            <div class="divTCI">
-                <h2 style="">Selecciona categoria</h2>
-            </div>
-            <div class="list media-list">
-                <ul style="" id="categoriaE">
-
-                </ul>
+            <div class="row">
+                <div class="col-100" style="margin-top: 3vh;">
+                    <img src="img/LogoIngetronikVisualizador.png" class="logo" alt=""/>
+                </div>
             </div>
         </div>
     </div>

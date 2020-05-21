@@ -4,6 +4,9 @@
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="Insomnia">
+        <param name="android-package" value="nl.xservices.plugins.Insomnia" />
+    </feature>
     <feature name="CordovaMqTTPlugin">
         <param name="android-package" value="com.arcoirislabs.plugin.mqtt.CordovaMqTTPlugin" />
     </feature>
@@ -34,7 +37,7 @@
     <icon src="www/img/logo.png" />
     <allow-intent href="market:*" />
     <preference name="loglevel" value="DEBUG" />
-    <preference name="KeepRunning" value="true" />
+    <preference name="android-usesCleartextTraffic" value="true" />
     <preference name="android-minSdkVersion" value="19" />
     <preference name="android-targetSdkVersion" value="28" />
 </widget>

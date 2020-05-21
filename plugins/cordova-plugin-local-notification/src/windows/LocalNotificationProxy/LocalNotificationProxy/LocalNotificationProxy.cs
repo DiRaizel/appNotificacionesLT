@@ -107,26 +107,28 @@ namespace LocalNotificationProxy
         /// <summary>
         /// List of all notifiation by id.
         /// </summary>
-        /// <param name="code">The type of the notifications to return for.</param>
         /// <returns>List of numbers</returns>
-        public int[] Ids(int code)
+        public int[] Ids()
         {
-            var type = Notification.Type.Unknown;
+            return this.manager.GetIds().ToArray();
+        }
 
-            switch (code)
-            {
-                case 0:
-                    type = Notification.Type.All;
-                    break;
-                case 1:
-                    type = Notification.Type.Scheduled;
-                    break;
-                case 2:
-                    type = Notification.Type.Triggered;
-                    break;
-            }
+        /// <summary>
+        /// List of all scheduled notifiation by id.
+        /// </summary>
+        /// <returns>List of numbers</returns>
+        public int[] ScheduledIds()
+        {
+            return this.manager.GetIdsByType(Notification.Type.Scheduled).ToArray();
+        }
 
-            return this.manager.GetIdsByType(type).ToArray();
+        /// <summary>
+        /// List of all triggered notifiation by id.
+        /// </summary>
+        /// <returns>List of numbers</returns>
+        public int[] TriggeredIds()
+        {
+            return this.manager.GetIdsByType(Notification.Type.Triggered).ToArray();
         }
 
 #pragma warning disable SA1300 // Element must begin with upper-case letter
@@ -146,29 +148,34 @@ namespace LocalNotificationProxy
         /// <summary>
         /// List of (all) notifiation specified by id.
         /// </summary>
-        /// <param name="code">The type of the notifications to return for.</param>
         /// <param name="ids">Optional list of IDs to find.</param>
         /// <returns>List of options instances</returns>
-        public Options[] Notifications(int code, [ReadOnlyArray] int[] ids)
+        public Options[] Notifications([ReadOnlyArray] int[] ids)
         {
-            var type = Notification.Type.Unknown;
-
-            switch (code)
+            if (ids == null || ids.Length == 0)
             {
-                case 0:
-                    type = Notification.Type.All;
-                    break;
-                case 1:
-                    type = Notification.Type.Scheduled;
-                    break;
-                case 2:
-                    type = Notification.Type.Triggered;
-                    break;
-                case 3:
-                    return this.manager.GetOptions(ids).ToArray();
+                return this.manager.GetOptions().ToArray();
             }
 
-            return this.manager.GetOptionsByType(type).ToArray();
+            return this.manager.GetOptions(ids).ToArray();
+        }
+
+        /// <summary>
+        /// List of all scheduled notifiation.
+        /// </summary>
+        /// <returns>List of options instances</returns>
+        public Options[] ScheduledNotifications()
+        {
+            return this.manager.GetOptionsByType(Notification.Type.Scheduled).ToArray();
+        }
+
+        /// <summary>
+        /// List of all triggered notifiation.
+        /// </summary>
+        /// <returns>List of options instances</returns>
+        public Options[] TriggeredNotifications()
+        {
+            return this.manager.GetOptionsByType(Notification.Type.Triggered).ToArray();
         }
     }
 }
