@@ -139,6 +139,7 @@ var $$ = Dom7;
 var mainView = app.views.create('.view-main');
 
 //
+//var urlServidor = 'http://167.71.248.182/';
 var urlServidor = 'http://192.168.0.12/';
 
 //
@@ -146,43 +147,22 @@ document.addEventListener('deviceready', function () {
     //
     setTimeout("show5()", 1000);
     //
-    window.plugins.insomnia.keepAwake();
-//    window.plugins.insomnia.allowSleepAgain();
-    //
-    cordova.plugins.CordovaMqTTPlugin.connect({
-        url: 'tcp://165.227.89.32', //a public broker used for testing purposes only. Try using a self hosted broker for production.
-        port: '1883',
-        clientId: 'com.appNotificacionesLT',
-        willTopicConfig: {
-            qos: 0, //default is 0
-            retain: false, //default is true
-            topic: "appNotificacionesLT/notificaciones",
-            payload: ""
-        },
-        username: "fabian",
-        password: '1234',
-        success: function (s) {
-            //
-        },
-        error: function (e) {
-//            console.log('error: ' + e);
-        },
-        onConnectionLost: function (e) {
-//            console.log('conexion perdida: ' + e);
-        }
-    });
-    //
     if (localStorage.idUsu !== undefined) {
+        //
+        conectarMqtt(localStorage.idUsu);
         //
         if (localStorage.rol === 'usuario') {
             //
-            desubscribirse();
+            if (localStorage.subscrito === 'subscrito') {
+                //
+                desubscribirse();
+            }
+            //
             $$('#btnHomeMenu').css('display', 'none');
             $$('#btnHome2Menu').css('display', '');
             app.views.main.router.navigate('/home2/');
         } else {
             //
-            subscribirse();
             $$('#btnHomeMenu').css('display', '');
             $$('#btnHome2Menu').css('display', 'none');
             app.views.main.router.navigate('/home/');
@@ -193,7 +173,44 @@ document.addEventListener('deviceready', function () {
         led: {color: '#FFFFFF', on: 500, off: 500},
         vibrate: true
     });
+    //
+    if (localStorage.sdoPlano === undefined) {
+        //
+        window.plugins.insomnia.keepAwake();
+        localStorage.sdoPlano = '2doPlano';
+    }
 }, false);
+
+//
+function conectarMqtt(valor) {
+    //
+    cordova.plugins.CordovaMqTTPlugin.connect({
+        url: 'tcp://165.227.89.32', //a public broker used for testing purposes only. Try using a self hosted broker for production.
+        port: '1883',
+        clientId: 'com.appNotificacionesLT' + valor,
+        willTopicConfig: {
+            qos: 0, //default is 0
+            retain: false, //default is true
+            topic: "appNotificacionesLT/notificaciones",
+            payload: ""
+        },
+        username: "fabian",
+        password: '1234',
+        success: function (s) {
+            //
+            if (localStorage.subscrito === 'subscrito' || subs === 'subscrito') {
+                //
+                subscribirse();
+            }
+        },
+        error: function (e) {
+//            console.log('error: ' + e);
+        },
+        onConnectionLost: function (e) {
+//            console.log('conexion perdida: ' + e);
+        }
+    });
+}
 
 //
 function subscribirse() {
@@ -207,7 +224,7 @@ function subscribirse() {
                 //
                 if (payload !== '' && payload !== null && payload !== undefined) {
                     //
-//                    alert(payload);
+//                    alert('Personal con temperatura elevada de ' + payload);
                     cordova.plugins.notification.local.schedule({
                         title: 'Alerta!',
                         text: 'Personal con temperatura elevada de ' + payload,
@@ -241,18 +258,19 @@ function desubscribirse() {
 //----------------------------------Login---------------------------------------
 
 //
-function login(valor) {
+var subs = '';
+
+//
+function login() {
     //
 //    let formData = new FormData($$("#formLogin")[0]);
     var formElement = document.getElementById("formLogin");
     formData = new FormData(formElement);
-    console.log(JSON.stringify(formData));
-    console.log($('#correo').val());
     //
     app.request({
         url: urlServidor + 'appNotificacionesLTPhp/Read/login',
         data: formData,
-        method: "post",
+        method: "POST",
         beforeSend: function () {
             //
             app.preloader.show();
@@ -270,15 +288,18 @@ function login(valor) {
                 //
                 if (data.rol === 'usuario') {
                     //
-                    desubscribirse();
                     $$('#btnHomeMenu').css('display', 'none');
                     $$('#btnHome2Menu').css('display', '');
                 } else {
                     //
-                    subscribirse();
+                    localStorage.subscrito = 'subscrito';
+                    subs = 'subscrito';
+                    //
                     $$('#btnHomeMenu').css('display', '');
                     $$('#btnHome2Menu').css('display', 'none');
                 }
+                //
+                conectarMqtt(localStorage.idUsu);
                 //
                 setTimeout(function () {
                     //
@@ -302,8 +323,10 @@ function login(valor) {
                 }).open();
             }
         },
-        error: function (xhr) {
+        error: function (xhr, e) {
+            app.preloader.hide();
             console.log(xhr);
+            alert(JSON.stringify(xhr) + ' _ ' + JSON.stringify(e) + ' ' + $$('#correo').val() + ' - ' + $$('#password').val());
         }
     });
 }
@@ -312,6 +335,15 @@ function login(valor) {
 function cerrarSesion() {
     //
     delete localStorage.idUsu;
+    delete localStorage.cedula;
+    delete localStorage.rol;
+    delete localStorage.empresa;
+    //
+    if (localStorage.subscrito === 'subscrito') {
+        //
+        desubscribirse();
+        localStorage.subscrito = 'desubscrito';
+    }
     //
     app.views.main.router.navigate('/login/');
 }
@@ -976,11 +1008,12 @@ function enviarAlarma(valor) {
     //
     cordova.plugins.CordovaMqTTPlugin.publish({
         topic: 'appNotificacionesLT/notificaciones',
-        payload: valor,
+        payload: String(valor),
         qos: 0,
         retain: false,
         success: function (s) {
             //
+            alert('Alarma enviada!');
         },
         error: function (e) {
             //alert("err!! something is wrong. check the console")
