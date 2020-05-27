@@ -139,8 +139,8 @@ var $$ = Dom7;
 var mainView = app.views.create('.view-main');
 
 //
-//var urlServidor = 'http://167.71.248.182/';
-var urlServidor = 'http://192.168.0.12/';
+var urlServidor = 'http://167.71.248.182/';
+//var urlServidor = 'http://192.168.0.12/';
 
 //
 document.addEventListener('deviceready', function () {
@@ -149,13 +149,13 @@ document.addEventListener('deviceready', function () {
     //
     if (localStorage.idUsu !== undefined) {
         //
-        conectarMqtt();
+        conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
         //
         if (localStorage.rol === 'usuario') {
             //
             if (localStorage.subscrito === 'subscrito') {
                 //
-                desubscribirse();
+                desubscribirse(localStorage.nombreEmpresa);
             }
             //
             $$('#btnHomeMenu').css('display', 'none');
@@ -182,7 +182,7 @@ document.addEventListener('deviceready', function () {
 }, false);
 
 //
-function conectarMqtt(valor) {
+function conectarMqtt(valor, valor2) {
     //
     cordova.plugins.CordovaMqTTPlugin.connect({
         url: 'tcp://165.227.89.32', //a public broker used for testing purposes only. Try using a self hosted broker for production.
@@ -191,7 +191,7 @@ function conectarMqtt(valor) {
         willTopicConfig: {
             qos: 0, //default is 0
             retain: false, //default is true
-            topic: "appNotificacionesLT/notificaciones",
+            topic: "appNotificacionesLT/notificaciones" + valor2,
             payload: ""
         },
         username: "fabian",
@@ -200,7 +200,7 @@ function conectarMqtt(valor) {
             //
             if (localStorage.subscrito === 'subscrito' || subs === 'subscrito') {
                 //
-                subscribirse();
+                subscribirse(valor2);
             }
         },
         error: function (e) {
@@ -213,14 +213,14 @@ function conectarMqtt(valor) {
 }
 
 //
-function subscribirse() {
+function subscribirse(valor) {
     //
     cordova.plugins.CordovaMqTTPlugin.subscribe({
-        topic: 'appNotificacionesLT/notificaciones',
+        topic: 'appNotificacionesLT/notificaciones' + valor,
         qos: 0,
         success: function (s) {
             //
-            cordova.plugins.CordovaMqTTPlugin.listen("appNotificacionesLT/notificaciones", function (payload, params) {
+            cordova.plugins.CordovaMqTTPlugin.listen("appNotificacionesLT/notificaciones" + valor, function (payload, params) {
                 //
                 if (payload !== '' && payload !== null && payload !== undefined) {
                     //
@@ -242,10 +242,10 @@ function subscribirse() {
 }
 
 //
-function desubscribirse() {
+function desubscribirse(valor) {
     //
     cordova.plugins.CordovaMqTTPlugin.unsubscribe({
-        topic: 'appNotificacionesLT/notificaciones',
+        topic: 'appNotificacionesLT/notificaciones' + valor,
         success: function (s) {
             //
         },
@@ -284,17 +284,14 @@ function login() {
                 localStorage.idUsu = data.idUsu;
                 localStorage.cedula = data.cedula;
                 localStorage.rol = data.rol;
-                localStorage.empresa = data.empresa;
+                localStorage.empresa = data.idEmp;
+                localStorage.nombreEmpresa = data.empresa;
                 //
                 if (data.rol === 'usuario') {
-                    //
-                    conectarMqtt('E');
                     //
                     $$('#btnHomeMenu').css('display', 'none');
                     $$('#btnHome2Menu').css('display', '');
                 } else {
-                    //
-                    conectarMqtt('');
                     //
                     localStorage.subscrito = 'subscrito';
                     subs = 'subscrito';
@@ -303,6 +300,7 @@ function login() {
                     $$('#btnHome2Menu').css('display', 'none');
                 }
                 //
+                conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
                 //
                 setTimeout(function () {
                     //
@@ -344,9 +342,11 @@ function cerrarSesion() {
     //
     if (localStorage.subscrito === 'subscrito') {
         //
-        desubscribirse();
+        desubscribirse(localStorage.nombreEmpresa);
         localStorage.subscrito = 'desubscrito';
     }
+    //
+    delete localStorage.nombreEmpresa;
     //
     app.views.main.router.navigate('/login/');
 }
