@@ -159,8 +159,8 @@ var $$ = Dom7;
 var mainView = app.views.create('.view-main');
 
 //
-//var urlServidor = 'http://167.71.248.182/';
-var urlServidor = 'http://192.168.0.12/';
+var urlServidor = 'http://167.71.248.182/';
+//var urlServidor = 'http://192.168.0.12/';
 
 //
 document.addEventListener('deviceready', function () {
@@ -169,13 +169,13 @@ document.addEventListener('deviceready', function () {
     //
     if (localStorage.idUsu !== undefined) {
         //
-//        conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
+        conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
         //
         if (localStorage.rol === 'usuario') {
             //
             if (localStorage.subscrito === 'subscrito') {
                 //
-//                desubscribirse(localStorage.nombreEmpresa);
+                desubscribirse(localStorage.nombreEmpresa);
             }
             //
             $$('#btnHomeMenu').css('display', 'none');
@@ -246,7 +246,6 @@ function subscribirse(valor) {
                 //
                 if (payload !== '' && payload !== null && payload !== undefined) {
                     //
-//                    alert('Personal con temperatura elevada de ' + payload);
                     cordova.plugins.notification.local.schedule({
                         title: 'Alerta!',
                         text: 'Personal con temperatura elevada de ' + payload,
@@ -324,7 +323,7 @@ function login() {
                     $$('#btnHome2Menu').css('display', 'none');
                 }
                 //
-//                conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
+                conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
                 //
                 setTimeout(function () {
                     //
@@ -366,7 +365,7 @@ function cerrarSesion() {
     //
     if (localStorage.subscrito === 'subscrito') {
         //
-//        desubscribirse(localStorage.nombreEmpresa);
+        desubscribirse(localStorage.nombreEmpresa);
         localStorage.subscrito = 'desubscrito';
     }
     //
@@ -466,7 +465,7 @@ function cargarAlertas() {
                 //
             } else {
                 //
-//                campos1 = '<li style="text-align: center;"><h3>No hay alertas el dia de hoy!</h3></li>';
+//                campos1 = '<li style="text-align: center;"><h3>No hay alertas el día de hoy!</h3></li>';
             }
         },
         error: function (xhr) {
@@ -847,7 +846,7 @@ function guardarEncuesta() {
                             //
                             if (temp > 37) {
                                 //
-//                                enviarAlarma(temp);
+                                enviarAlarma(temp);
                             }
                             //
                             app.views.main.router.navigate('/home2/');
