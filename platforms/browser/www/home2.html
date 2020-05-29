@@ -20,10 +20,94 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div class="row">
-                <div class="col-100" style="margin-top: 28vh;">
+                <div class="" style="width: 100%; margin-bottom: 0px; margin-top: 15px;">
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col" style="border-radius: 50%; border: solid black 1px; height: 8vh; width: 8vh;" id="semaforo"></div>
+                        <div class="col"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-100" style="text-align: center; align-items: center;">
+                    <h3>Familia</h3>
+                    <div class="row">
+                        <div class="col-30"></div>
+                        <button class="col-40 button button-raised button-fill popup-open" data-popup=".popupFamiliar"><i style="" class="fas fa-user-plus"></i> Agregar</button>
+                        <div class="col-30"></div>
+                    </div>
+                </div>
+                <div class="list media-list" style="width: 100%; margin-bottom: 0px; margin-top: 15px;">
+                    <ul id="familiares" style="background: transparent;">
+
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-100" style="margin-top: 3vh;">
                     <img src="img/LogoIngetronikVisualizador.png" class="logo" alt=""/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup popupFamiliar">
+        <div class="view">
+            <div class="page">
+                <div class="navbar">
+                    <div class="navbar-bg"></div>
+                    <div class="navbar-inner">
+                        <div class="title">Agregar Familiar</div>
+                        <div class="right">
+                            <!-- Link to close popup -->
+                            <a class="link popup-close">Cerrar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-content">
+                    <div class="block">
+                        <form class="list formFamiliar" id="formFamiliar" name="formFamiliar" method="POST" action="javascript:guardarFamiliar()">
+                            <ul style="background: transparent;">
+                                <li>
+                                    <div class="item-content item-input">
+                                        <div class="item-inner">
+                                            <div class="item-title item-label">Documento</div>
+                                            <div class="item-input-wrap">
+                                                <input type="text" id="documentof" name="documento" placeholder="Documento" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content item-input">
+                                        <div class="item-inner">
+                                            <div class="item-title item-label">Nombres</div>
+                                            <div class="item-input-wrap">
+                                                <input type="text" id="nombresf" name="nombres" placeholder="Nombres" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content item-input">
+                                        <div class="item-inner">
+                                            <div class="item-title item-label">Apellidos</div>
+                                            <div class="item-input-wrap">
+                                                <input type="text" id="apellidosf" name="apellidos" placeholder="Apellidos" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <button type="submit" class="button button-fill button-round">Guardar</button>
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

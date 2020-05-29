@@ -100,14 +100,20 @@ var app = new Framework7({
             }
         },
         {
-            path: '/encuestas/',
-            url: 'encuestas.html',
+            path: '/encuesta2/',
+            url: 'encuesta2.html',
             on: {
                 pageAfterIn: function () {
                     // do something after page gets into the view
                 },
                 pageInit: function () {
                     // do something when page initialized
+                    setTimeout(function () {
+                        //
+                        $$('#documento').val(arrayFamiliares[posFam]['documento']);
+                        $$('#nombres').val(arrayFamiliares[posFam]['nombres']);
+                        $$('#apellidos').val(arrayFamiliares[posFam]['apellidos']);
+                    }, 500);
                 }
             }
         },
@@ -121,6 +127,20 @@ var app = new Framework7({
                 pageInit: function () {
                     // do something when page initialized
                     validarEncuesta();
+                    cargarFamiliares();
+                }
+            }
+        },
+        {
+            path: '/familia/',
+            url: 'familia.html',
+            on: {
+                pageAfterIn: function () {
+                    // do something after page gets into the view
+                },
+                pageInit: function () {
+                    // do something when page initialized
+                    cargarFamiliares();
                 }
             }
         }
@@ -139,8 +159,8 @@ var $$ = Dom7;
 var mainView = app.views.create('.view-main');
 
 //
-var urlServidor = 'http://167.71.248.182/';
-//var urlServidor = 'http://192.168.0.12/';
+//var urlServidor = 'http://167.71.248.182/';
+var urlServidor = 'http://192.168.0.12/';
 
 //
 document.addEventListener('deviceready', function () {
@@ -149,21 +169,23 @@ document.addEventListener('deviceready', function () {
     //
     if (localStorage.idUsu !== undefined) {
         //
-        conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
+//        conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
         //
         if (localStorage.rol === 'usuario') {
             //
             if (localStorage.subscrito === 'subscrito') {
                 //
-                desubscribirse(localStorage.nombreEmpresa);
+//                desubscribirse(localStorage.nombreEmpresa);
             }
             //
             $$('#btnHomeMenu').css('display', 'none');
+            $$('#btnFamiliaMenu').css('display', 'none');
             $$('#btnHome2Menu').css('display', '');
             app.views.main.router.navigate('/home2/');
         } else {
             //
             $$('#btnHomeMenu').css('display', '');
+            $$('#btnFamiliaMenu').css('display', '');
             $$('#btnHome2Menu').css('display', 'none');
             app.views.main.router.navigate('/home/');
         }
@@ -290,6 +312,7 @@ function login() {
                 if (data.rol === 'usuario') {
                     //
                     $$('#btnHomeMenu').css('display', 'none');
+                    $$('#btnFamiliaMenu').css('display', 'none');
                     $$('#btnHome2Menu').css('display', '');
                 } else {
                     //
@@ -297,10 +320,11 @@ function login() {
                     subs = 'subscrito';
                     //
                     $$('#btnHomeMenu').css('display', '');
+                    $$('#btnFamiliaMenu').css('display', '');
                     $$('#btnHome2Menu').css('display', 'none');
                 }
                 //
-                conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
+//                conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
                 //
                 setTimeout(function () {
                     //
@@ -342,7 +366,7 @@ function cerrarSesion() {
     //
     if (localStorage.subscrito === 'subscrito') {
         //
-        desubscribirse(localStorage.nombreEmpresa);
+//        desubscribirse(localStorage.nombreEmpresa);
         localStorage.subscrito = 'desubscrito';
     }
     //
@@ -462,6 +486,8 @@ function cargarAlertas() {
 //
 function validarEncuesta() {
     //
+    var campos = '';
+    //
     app.request({
         url: urlServidor + 'appNotificacionesLTPhp/Read/validarEncuesta',
         data: {empresa: localStorage.empresa, idUsu: localStorage.idUsu},
@@ -476,10 +502,11 @@ function validarEncuesta() {
             if (data[0].sql === 'Si') {
                 //
                 campos = '<li style="text-align: center;"><h4 style="margin: 0px;">Ya hiciste la encuesta el dia de hoy</h4></li>';
+                validarSemaforo();
                 //
             } else {
                 //
-                campos = '<li style="text-align: center;"><a href="/encuesta/" class="button button-fill button-round">Hacer encuesta</a></li>';
+                campos = '<li style="text-align: center;"><a href="/encuesta/" onclick="controlEncuesta(1)" class="button button-fill button-round">Hacer encuesta</a></li>';
             }
         },
         error: function (xhr) {
@@ -491,6 +518,52 @@ function validarEncuesta() {
                 //
                 $$('#encuesta').html(campos);
             }, 500);
+        }
+    });
+}
+
+//
+var controlE = 0;
+
+//
+function controlEncuesta(valor) {
+    //
+    controlE = valor;
+}
+
+//
+function validarSemaforo() {
+    //
+    var color = '';
+    //
+    app.request({
+        url: urlServidor + 'appNotificacionesLTPhp/Read/validarSemaforo',
+        data: {empresa: localStorage.empresa, idUsu: localStorage.idUsu},
+        method: "post",
+        beforeSend: function () {
+            //
+        },
+        success: function (rsp) {
+            //
+            var data = JSON.parse(rsp);
+            var div = document.getElementById('semaforo');
+            //
+            if (data[0].sql === 'verde') {
+                //
+                div.style.backgroundColor = 'green';
+            } else if (data[0].sql === 'naranja') {
+                //
+                div.style.backgroundColor = 'orange';
+            } else {
+                //
+                div.style.backgroundColor = 'red';
+            }
+        },
+        error: function (xhr) {
+            console.log(xhr);
+        },
+        complete: function () {
+            //
         }
     });
 }
@@ -689,6 +762,9 @@ function guardarEncuesta() {
             //
             app.popup.open('.popup-antecedentes', true);
         }
+    } else {
+        //
+        controlG = true;
     }
     //
     if (controlG) {
@@ -729,8 +805,19 @@ function guardarEncuesta() {
         formData.append('fumador', fumador);
         formData.append('ningunoA', ningunoA);
         //
+        var funcion = '';
+        //
+        if (controlE == 1) {
+            //
+            funcion = 'guardarEncuesta';
+        } else {
+            //
+            formData.append('idFam', arrayFamiliares[posFam]['idFam']);
+            funcion = 'guardarEncuestaF';
+        }
+        //
         app.request({
-            url: urlServidor + 'appNotificacionesLTPhp/Create/guardarEncuesta',
+            url: urlServidor + 'appNotificacionesLTPhp/Create/' + funcion,
             data: formData,
             method: "post",
             beforeSend: function () {
@@ -760,13 +847,19 @@ function guardarEncuesta() {
                             //
                             if (temp > 37) {
                                 //
-                                enviarAlarma(temp);
+//                                enviarAlarma(temp);
                             }
                             //
                             app.views.main.router.navigate('/home2/');
                         } else {
                             //
-                            app.views.main.router.navigate('/home/');
+                            if (funcion === 'guardarEncuestaF') {
+                                //
+                                app.views.main.router.navigate('/familia/');
+                            } else {
+                                //
+                                app.views.main.router.navigate('/home/');
+                            }
                         }
                     }, 500);
                 } else {
@@ -784,6 +877,33 @@ function guardarEncuesta() {
                 console.log(xhr);
             }
         });
+        //
+        fiebre = 2;
+        tos = 2;
+        cefalea = 2;
+        dolorGarganta = 2;
+        malestarGeneral = 2;
+        dificultadRespiratoria = 2;
+        adinamia = 2;
+        secrecionesNasales = 2;
+        diarrea = 2;
+        ninguno = 2;
+        //
+        diabetes = 2;
+        hipertencion = 2;
+        enfermedadesCorazon = 2;
+        fallaRenal = 2;
+        enfermedadPulmonar = 2;
+        hipotiroidismo = 2;
+        otroProblemasPulmonares = 2;
+        enfermedadesAutoinmunes = 2;
+        corticoides = 2;
+        inmunodeficiencia = 2;
+        cancer = 2;
+        sobrepeso = 2;
+        desnutricion = 2;
+        fumador = 2;
+        ningunoA = 2;
     }
 }
 
@@ -1020,6 +1140,138 @@ function enviarAlarma(valor) {
         },
         error: function (e) {
             //alert("err!! something is wrong. check the console")
+        }
+    });
+}
+
+//--------------------------------Familia---------------------------------------
+
+//
+var arrayFamiliares = [];
+
+//
+function cargarFamiliares() {
+    //
+    var campos = '';
+    //
+    app.request({
+        url: urlServidor + 'appNotificacionesLTPhp/Read/cargarFamiliares',
+        data: {idUsu: localStorage.idUsu},
+        method: "post",
+        beforeSend: function () {
+            //
+            app.preloader.show();
+        },
+        success: function (rsp) {
+            //
+            var data = JSON.parse(rsp);
+            //
+            arrayFamiliares = data;
+            //
+            if (data.length > 0) {
+                //
+                for (var i = 0; i < data.length; i++) {
+                    //
+                    var encuesta = '';
+                    campos += '<li>';
+                    //
+                    if (data[i]['encuesta'] === 'Si') {
+                        //
+                        campos += '<a href="#" class="item-link item-content" disabled>';
+                        encuesta = 'Ya hizo encuesta el dia de hoy';
+                    } else {
+                        //
+                        campos += '<a onclick="cargarEncuestaFamiliar(' + i + ')" href="/encuesta2/" class="item-link item-content">';
+                        encuesta = '';
+                    }
+                    //
+                    campos += '<div class="item-media"><img src="img/user.png" width="45"/></div>';
+                    campos += '<div class="item-inner">';
+                    campos += '<div class="item-title-row">';
+                    campos += '<div class="item-title">' + data[i]['nombres'] + ' ' + data[i]['apellidos'] + '</div>';
+                    campos += '</div>';
+                    campos += '<div class="item-subtitle">' + data[i]['documento'] + '</div>';
+                    campos += '<div class="item-text">' + encuesta + '</div>';
+                    campos += '</div></a></li>';
+                }
+            }
+        },
+        error: function (xhr) {
+            console.log(xhr);
+        },
+        complete: function () {
+            //
+            setTimeout(function () {
+                //
+                $$('#familiares').html(campos);
+                app.preloader.hide();
+            }, 500);
+        }
+    });
+}
+
+//
+var posFam = 0;
+
+//
+function cargarEncuestaFamiliar(valor) {
+    //
+    posFam = valor;
+    controlE = 2;
+}
+
+//
+function guardarFamiliar() {
+    //
+    var formElement = document.getElementById("formFamiliar");
+    formData = new FormData(formElement);
+    //
+    formData.append('idUsu', localStorage.idUsu);
+    formData.append('empresa', localStorage.empresa);
+    //
+    app.request({
+        url: urlServidor + 'appNotificacionesLTPhp/Create/guardarFamiliar',
+        data: formData,
+        method: "post",
+        beforeSend: function () {
+            //
+            app.preloader.show();
+        },
+        success: function (rsp) {
+            //
+            var data = JSON.parse(rsp);
+            //
+            if (data.estado == 'guardado') {
+                //
+                cargarFamiliares();
+                //
+                setTimeout(function () {
+                    //
+                    app.preloader.hide();
+                    //
+                    modal = app.dialog.create({
+                        title: 'Alerta!',
+                        text: 'Familiar guardado!',
+                        buttons: [{text: 'OK'}]
+                    }).open();
+                    //
+                    app.popup.close('.popupFamiliar', true);
+                    //
+                    $$('#formFamiliar')[0].reset();
+                }, 500);
+            } else {
+                //
+                app.preloader.hide();
+                modal = app.dialog.create({
+                    title: 'Alerta!',
+                    text: 'Error al guardar la familiar!',
+                    buttons: [{text: 'OK'}]
+                }).open();
+            }
+        },
+        error: function (xhr) {
+            controlG = false;
+            console.log(xhr);
         }
     });
 }

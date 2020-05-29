@@ -1,10 +1,26 @@
 <!-- Initial Page, "data-name" contains page name -->
-<div data-name="home" class="page">
+<div data-name="familia" class="page">
 
     <!-- Top Navbar -->
     <div class="navbar">
         <div class="navbar-inner barraNav">
-            <div class="left iconoMenu"><a href="#" class="panel-open"><i style="" class="fas fa-bars"></i></a></div>
+            <div class="left"><a href="/home/" class="link"><i class="fas fa-chevron-circle-left"></i></a></div>
+            <div class="right">
+                <!-- Link to enable searchbar -->
+                <a class="link icon-only searchbar-enable" data-searchbar=".searchbarF">
+                    <i style="" class="fas fa-search"></i>
+                </a>
+            </div>
+            <form class="searchbar searchbarF searchbar-expandable searchbar-init" data-search-container=".listFamilia" data-search-item="li" data-search-in=".item-title">
+                <div class="searchbar-inner">
+                    <div class="searchbar-input-wrap">
+                        <input type="search" placeholder="Buscar" />
+                        <i class="searchbar-icon"></i>
+                        <span class="input-clear-button"></span>
+                    </div>
+                    <span class="searchbar-disable-button">Cancelar</span>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -12,44 +28,20 @@
 
     <!-- Scrollable page content -->
     <div class="page-content">
-        <div class="block" style="margin-top: 0px;">
-            <div class="row">
-                <div class="list" style="width: 100%; margin-bottom: 0px; margin-top: 15px;">
-                    <ul id="encuesta" style="background: transparent;">
-
-                    </ul>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="" style="width: 100%; margin-bottom: 0px; margin-top: 15px;">
-                    <div class="row">
-                        <div class="col"></div>
-                        <div class="col" style="border-radius: 50%; border: solid black 1px; height: 8vh; width: 8vh;" id="semaforo"></div>
-                        <div class="col"></div>
-                    </div>
-                </div>
-            </div>
-
+        <div class="block" style="margin-top: 10px;">
             <div class="row">
                 <div class="col-100" style="text-align: center; align-items: center;">
-                    <h3>Familia</h3>
+                    <h2>Familia</h2>
                     <div class="row">
                         <div class="col-30"></div>
                         <button class="col-40 button button-raised button-fill popup-open" data-popup=".popupFamiliar"><i style="" class="fas fa-user-plus"></i> Agregar</button>
                         <div class="col-30"></div>
                     </div>
                 </div>
-                <div class="list media-list" style="width: 100%; margin-bottom: 0px; margin-top: 15px;">
+                <div class="list media-list listFamilia" style="width: 100%; margin-bottom: 0px; margin-top: 15px;">
                     <ul id="familiares" style="background: transparent;">
 
                     </ul>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-100" style="margin-top: 3vh;">
-                    <img src="img/LogoIngetronikVisualizador.png" class="logo" alt=""/>
                 </div>
             </div>
         </div>

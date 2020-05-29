@@ -689,7 +689,11 @@ function guardarEncuesta() {
             //
             app.popup.open('.popup-antecedentes', true);
         }
+    }else {
+        //
+        controlG = true;
     }
+
     //
     if (controlG) {
         //
@@ -741,6 +745,7 @@ function guardarEncuesta() {
                 //
                 controlG = false;
                 var data = JSON.parse(rsp);
+                alert(data.estado);
                 //
                 if (data.estado == 'guardada') {
                     //
