@@ -165,7 +165,7 @@ var urlServidor = 'http://167.71.248.182/';
 //var urlServidor = 'http://192.168.0.12/';
 //var urlServidor = 'http://192.168.1.103/';
 
-//
+///
 document.addEventListener('deviceready', function () {
     //
     setTimeout("show5()", 1000);
