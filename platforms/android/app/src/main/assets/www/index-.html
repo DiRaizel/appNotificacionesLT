@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <!-- Required meta tags-->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <!-- Color theme for statusbar -->
+        <meta name="theme-color" content="#2196f3">
+        <!-- Your app title -->
+        <title>Notificaciones L.T.</title>
+        <!-- Path to Framework7 Library Bundle CSS -->
+        <link rel="stylesheet" href="css/framework7.bundle.min.css">
+        <!-- Path to your custom app styles-->
+        <link rel="stylesheet" href="css/my-app.css">
+    </head>
+
+    <body>
+        <!-- App root element -->
+        <div id="appNotificacionesLT">
+
+            <div class="panel panel-left panel-cover panel-resizable">
+                <div class="block">
+                    <div class="list">
+                        <ul>
+                            <li id="btnHomeMenu">
+                                <a href="/home/" class="item-link item-content panel-close">
+                                    <div class="item-media"><i class="fas fa-home"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title">Inicio</div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li id="btnHome2Menu">
+                                <a href="/home2/" class="item-link item-content panel-close">
+                                    <div class="item-media"><i class="fas fa-home"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title">Inicio</div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li id="btnFamiliaMenu">
+                                <a href="/familia/" class="item-link item-content panel-close">
+                                    <div class="item-media"><i class="fas fa-users"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title">Familia</div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li id="btnCerrarSesionMenu">
+                                <a onclick="cerrarSesion()" href="/login/" class="item-link item-content panel-close">
+                                    <div class="item-media"><i class="fas fa-power-off"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title">Cerrar sesión</div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statusbar overlay -->
+            <div class="statusbar"></div>
+
+            <!-- Your main view, should have "view-main" class -->
+            <div class="view view-main">
+
+                <!-- Initial Page, "data-name" contains page name -->
+                <div data-name="home" class="page">
+
+                    <!-- Top Navbar -->
+                    <div class="navbar">
+                        <div class="navbar-inner barraNav">
+                            <div class="left iconoMenu"><a href="#" class="panel-open"><i style="" class="fas fa-bars"></i></a></div>
+                            <!--<div class="title" style="color: white;">Notificaciones</div>-->
+                            <div class="right">
+                                <!-- Link to enable searchbar -->
+                                <a class="link icon-only searchbar-enable" data-searchbar=".searchbarU">
+                                    <i style="" class="fas fa-search"></i>
+                                </a>
+                            </div>
+                            <!--Searchbar is a direct child of "navbar-inner"-->
+                            <form class="searchbar searchbarU searchbar-expandable searchbar-init" data-search-container=".listEncuestados" data-search-item="li" data-search-in=".item-title">
+                                <div class="searchbar-inner">
+                                    <div class="searchbar-input-wrap">
+                                        <input type="search" placeholder="Buscar" />
+                                        <i class="searchbar-icon"></i>
+                                        <span class="input-clear-button"></span>
+                                    </div>
+                                    <span class="searchbar-disable-button">Cancelar</span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Toolbar -->
+
+                    <!-- Scrollable page content -->
+                    <div class="page-content">
+                        <div class="block" style="margin-top: 0px;">
+                            <div class="row">
+                                <div class="list" style="width: 100%; margin-bottom: 0px; margin-top: 15px;">
+                                    <ul id="encuesta" style="background: transparent;">
+
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="" style="width: 100%; margin-bottom: 0px; margin-top: 15px;">
+                                    <div class="row">
+                                        <div class="col"></div>
+                                        <div class="col" style="border-radius: 50%; border: solid black 1px; height: 8vh; width: 8vh;" id="semaforo"></div>
+                                        <div class="col"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card" style="background-color: red;">
+                                <div class="card-content">
+                                    <div class="list media-list listAlertas">
+                                        <ul id="alertas">
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card" style="background: transparent;">
+                                <div class="card-content">
+                                    <div class="list media-list listEncuestados">
+                                        <ul id="encuestados">
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-100" style="margin-top: 3vh;">
+                                    <img src="img/LogoIngetronikVisualizador.png" class="logo" alt=""/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="popup popupLogin" style="overflow: auto;">
+            <div class="block" style="padding: 0px;">
+                <div class="row">
+                    <div class="col-100" style="text-align: center;">
+                        <img class="imgLogin" src="img/LogoIngetronikVisualizador.png">
+                        <h3>Login</h3>
+                    </div>
+                </div>
+                <div class="row block" style="align-items: center; margin: 0px;">
+                    <form class="col-100 list formLogin" id="formLogin" name="formLogin" method="POST" action="javascript:login()">
+                        <ul style="background: transparent;">
+                            <li>
+                                <div class="col-100 item-content item-input">
+                                    <div class="item-inner">
+                                        <div class="item-title item-label">Correo</div>
+                                        <div class="item-input-wrap">
+                                            <input type="email" id="correo" name="correo" placeholder="Correo" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content item-input">
+                                    <div class="item-inner">
+                                        <div class="item-title item-label" style="">Contraseña</div>
+                                        <div class="item-input-wrap">
+                                            <input type="password" id="password" name="password" placeholder="Contraseña" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <button type="submit" class="button button-fill button-round">Entrar</button>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="cordova.js"></script>
+        <!-- Path to Framework7 Library Bundle JS-->
+        <script type="text/javascript" src="js/framework7.bundle.min.js"></script>
+        <script type="text/javascript" src="js/fonts-awesome.js"></script>
+        <!-- Path to your app js-->
+        <script type="text/javascript" src="js/my-app.js"></script>
+
+    </body>
+
+</html>

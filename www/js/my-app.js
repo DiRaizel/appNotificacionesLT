@@ -96,6 +96,8 @@ var app = new Framework7({
                 pageInit: function () {
                     // do something when page initialized
                     $$('#documento').val(localStorage.cedula);
+                    $$('#nombres').val(localStorage.nombres);
+                    $$('#apellidos').val(localStorage.apellidos);
                 }
             }
         },
@@ -161,6 +163,7 @@ var mainView = app.views.create('.view-main');
 //
 var urlServidor = 'http://167.71.248.182/';
 //var urlServidor = 'http://192.168.0.12/';
+//var urlServidor = 'http://192.168.1.103/';
 
 //
 document.addEventListener('deviceready', function () {
@@ -304,6 +307,8 @@ function login() {
                 //
                 localStorage.idUsu = data.idUsu;
                 localStorage.cedula = data.cedula;
+                localStorage.nombres = data.nombres;
+                localStorage.apellidos = data.apellidos;
                 localStorage.rol = data.rol;
                 localStorage.empresa = data.idEmp;
                 localStorage.nombreEmpresa = data.empresa;

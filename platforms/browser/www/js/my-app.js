@@ -96,6 +96,8 @@ var app = new Framework7({
                 pageInit: function () {
                     // do something when page initialized
                     $$('#documento').val(localStorage.cedula);
+                    $$('#nombres').val(localStorage.nombres);
+                    $$('#apellidos').val(localStorage.apellidos);
                 }
             }
         },
@@ -159,8 +161,9 @@ var $$ = Dom7;
 var mainView = app.views.create('.view-main');
 
 //
-//var urlServidor = 'http://167.71.248.182/';
-var urlServidor = 'http://192.168.0.12/';
+var urlServidor = 'http://167.71.248.182/';
+//var urlServidor = 'http://192.168.0.12/';
+//var urlServidor = 'http://192.168.1.103/';
 
 //
 document.addEventListener('deviceready', function () {
@@ -169,13 +172,13 @@ document.addEventListener('deviceready', function () {
     //
     if (localStorage.idUsu !== undefined) {
         //
-//        conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
+        conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
         //
         if (localStorage.rol === 'usuario') {
             //
             if (localStorage.subscrito === 'subscrito') {
                 //
-//                desubscribirse(localStorage.nombreEmpresa);
+                desubscribirse(localStorage.nombreEmpresa);
             }
             //
             $$('#btnHomeMenu').css('display', 'none');
@@ -246,7 +249,6 @@ function subscribirse(valor) {
                 //
                 if (payload !== '' && payload !== null && payload !== undefined) {
                     //
-//                    alert('Personal con temperatura elevada de ' + payload);
                     cordova.plugins.notification.local.schedule({
                         title: 'Alerta!',
                         text: 'Personal con temperatura elevada de ' + payload,
@@ -305,6 +307,8 @@ function login() {
                 //
                 localStorage.idUsu = data.idUsu;
                 localStorage.cedula = data.cedula;
+                localStorage.nombres = data.nombres;
+                localStorage.apellidos = data.apellidos;
                 localStorage.rol = data.rol;
                 localStorage.empresa = data.idEmp;
                 localStorage.nombreEmpresa = data.empresa;
@@ -324,7 +328,7 @@ function login() {
                     $$('#btnHome2Menu').css('display', 'none');
                 }
                 //
-//                conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
+                conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
                 //
                 setTimeout(function () {
                     //
@@ -343,7 +347,7 @@ function login() {
                 app.preloader.hide();
                 modal = app.dialog.create({
                     title: 'Alerta!',
-                    text: 'El correo ingresado no se encuentra registrado o la contraseña es incorrrecta.',
+                    text: 'El correo ingresado no se encuentra registrado o la contraseña es incorrecta.',
                     buttons: [{text: 'OK'}]
                 }).open();
             }
@@ -366,7 +370,7 @@ function cerrarSesion() {
     //
     if (localStorage.subscrito === 'subscrito') {
         //
-//        desubscribirse(localStorage.nombreEmpresa);
+        desubscribirse(localStorage.nombreEmpresa);
         localStorage.subscrito = 'desubscrito';
     }
     //
@@ -396,7 +400,7 @@ function cargarEncuestados() {
             //
             if (data.length > 0) {
                 //
-                campos = '<li style="text-align: center; padding-top: 10px;"><h4 style="margin: 0px;">Encuestados el dia de hoy</h4></li>';
+                campos = '<li style="text-align: center; padding-top: 10px;"><h4 style="margin: 0px;">Encuestados el día de hoy</h4></li>';
                 //
                 for (var i = 0; i < data.length; i++) {
                     //
@@ -413,7 +417,7 @@ function cargarEncuestados() {
                 //
             } else {
                 //
-                campos = '<li style="text-align: center;"><h3>No hay encuestados el dia de hoy</h3></li>';
+                campos = '<li style="text-align: center;"><h3>No hay encuestados el día de hoy</h3></li>';
             }
         },
         error: function (xhr) {
@@ -466,7 +470,7 @@ function cargarAlertas() {
                 //
             } else {
                 //
-//                campos1 = '<li style="text-align: center;"><h3>No hay alertas el dia de hoy!</h3></li>';
+//                campos1 = '<li style="text-align: center;"><h3>No hay alertas el día de hoy!</h3></li>';
             }
         },
         error: function (xhr) {
@@ -501,7 +505,7 @@ function validarEncuesta() {
             //
             if (data[0].sql === 'Si') {
                 //
-                campos = '<li style="text-align: center;"><h4 style="margin: 0px;">Ya hiciste la encuesta el dia de hoy</h4></li>';
+                campos = '<li style="text-align: center;"><h4 style="margin: 0px;">Ya hiciste la encuesta el día de hoy</h4></li>';
                 validarSemaforo();
                 //
             } else {
@@ -847,7 +851,7 @@ function guardarEncuesta() {
                             //
                             if (temp > 37) {
                                 //
-//                                enviarAlarma(temp);
+                                enviarAlarma(temp);
                             }
                             //
                             app.views.main.router.navigate('/home2/');
@@ -1136,7 +1140,7 @@ function enviarAlarma(valor) {
         retain: false,
         success: function (s) {
             //
-            alert('Alarma enviada!');
+//            alert('Alarma enviada!');
         },
         error: function (e) {
             //alert("err!! something is wrong. check the console")
@@ -1178,7 +1182,7 @@ function cargarFamiliares() {
                     if (data[i]['encuesta'] === 'Si') {
                         //
                         campos += '<a href="#" class="item-link item-content" disabled>';
-                        encuesta = 'Ya hizo encuesta el dia de hoy';
+                        encuesta = 'Ya hizo encuesta el día de hoy';
                     } else {
                         //
                         campos += '<a onclick="cargarEncuestaFamiliar(' + i + ')" href="/encuesta2/" class="item-link item-content">';
