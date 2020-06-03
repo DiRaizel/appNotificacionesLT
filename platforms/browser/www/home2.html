@@ -4,39 +4,43 @@
     <!-- Top Navbar -->
     <div class="navbar">
         <div class="navbar-inner barraNav">
-            <div class="left iconoMenu"><a href="#" class="panel-open"><i style="" class="fas fa-bars"></i></a></div>
+            <div class="left iconoMenu"><a href="#" class="panel-open" style="color: white;"><i style="" class="fas fa-bars"></i></a></div>
         </div>
     </div>
 
     <!-- Bottom Toolbar -->
+    <div class="toolbar toolbar-bottom fblanco">
+        <div class="toolbar-inner" style="background-color: transparent;">
+            <!-- Toolbar links -->
+            <div class="row" style="width: 100%;">
+                <div class="col-100"><img src="img/footer.jpeg" style="width: 100%; height: 10vh;"/></div>
+            </div>
+        </div>
+    </div>
 
     <!-- Scrollable page content -->
     <div class="page-content">
         <div class="block" style="margin-top: 0px;">
             <div class="row">
                 <div class="list" style="width: 100%; margin-bottom: 0px; margin-top: 15px;">
-                    <ul id="encuesta" style="background: transparent;">
+                    <ul id="encuesta">
 
                     </ul>
                 </div>
             </div>
 
             <div class="row">
-                <div class="" style="width: 100%; margin-bottom: 0px; margin-top: 15px;">
-                    <div class="row">
-                        <div class="col"></div>
-                        <div class="col" style="border-radius: 50%; border: solid black 1px; height: 8vh; width: 8vh;" id="semaforo"></div>
-                        <div class="col"></div>
+                <div class="col-100" style="text-align: center; align-items: center; margin-top: 15px;">
+                    <!--<h3>Familia</h3>-->
+                    <div class="row" style="margin-bottom: 15px;">
+                        <div class="col-30" id="semaforo"></div>
+                        <div class="col-40"><img src="img/familia.png" style="width: 100%; border-radius: 5px; height: 20vh;"/></div>
+                        <div class="col-30" id="semaforoM"></div>
                     </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-100" style="text-align: center; align-items: center;">
-                    <h3>Familia</h3>
                     <div class="row">
                         <div class="col-30"></div>
-                        <button class="col-40 button button-raised button-fill popup-open" data-popup=".popupFamiliar"><i style="" class="fas fa-user-plus"></i> Agregar</button>
+                        <button class="col-40 button button-raised button-fill popup-open" style="background-color: #004288;" data-popup=".popupFamiliar"><i style="" class="fas fa-user-plus"></i> Agregar</button>
+                        <!--<div class="col-40"><a class="popup-open" data-popup=".popupFamiliar"><img src="img/agregar.jpeg" style="width: 100%;"/></a></div>-->
                         <div class="col-30"></div>
                     </div>
                 </div>
@@ -47,24 +51,19 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-100" style="margin-top: 3vh;">
-                    <img src="img/LogoIngetronikVisualizador.png" class="logo" alt=""/>
-                </div>
-            </div>
         </div>
     </div>
 
     <div class="popup popupFamiliar">
         <div class="view">
             <div class="page">
-                <div class="navbar">
+                <div class="navbar barraNav">
                     <div class="navbar-bg"></div>
                     <div class="navbar-inner">
-                        <div class="title">Agregar Familiar</div>
+                        <div class="title colorTexto">Agregar Familiar</div>
                         <div class="right">
                             <!-- Link to close popup -->
-                            <a class="link popup-close">Cerrar</a>
+                            <a class="link popup-close" ><i class="far fa-times-circle colorTexto"></i></a>
                         </div>
                     </div>
                 </div>
@@ -75,9 +74,9 @@
                                 <li>
                                     <div class="item-content item-input">
                                         <div class="item-inner">
-                                            <div class="item-title item-label">Documento</div>
+                                            <div class="item-title item-label" style="font-size: 18px; margin-bottom: 5px;">Documento</div>
                                             <div class="item-input-wrap">
-                                                <input type="text" id="documentof" name="documento" placeholder="Documento" required>
+                                                <input style="border: 1px #004288 solid; border-radius: 5px;" type="text" id="documentof" name="documento" placeholder="Documento" required>
                                             </div>
                                         </div>
                                     </div>
@@ -85,9 +84,9 @@
                                 <li>
                                     <div class="item-content item-input">
                                         <div class="item-inner">
-                                            <div class="item-title item-label">Nombres</div>
+                                            <div class="item-title item-label" style="font-size: 18px; margin-bottom: 5px;">Nombres</div>
                                             <div class="item-input-wrap">
-                                                <input type="text" id="nombresf" name="nombres" placeholder="Nombres" required>
+                                                <input style="border: 1px #004288 solid; border-radius: 5px;" type="text" id="nombresf" name="nombres" placeholder="Nombres" required>
                                             </div>
                                         </div>
                                     </div>
@@ -95,15 +94,19 @@
                                 <li>
                                     <div class="item-content item-input">
                                         <div class="item-inner">
-                                            <div class="item-title item-label">Apellidos</div>
+                                            <div class="item-title item-label" style="font-size: 18px; margin-bottom: 5px;">Apellidos</div>
                                             <div class="item-input-wrap">
-                                                <input type="text" id="apellidosf" name="apellidos" placeholder="Apellidos" required>
+                                                <input style="border: 1px #004288 solid; border-radius: 5px;" type="text" id="apellidosf" name="apellidos" placeholder="Apellidos" required>
                                             </div>
                                         </div>
                                     </div>
                                 </li>
                                 <li>
-                                    <button type="submit" class="button button-fill button-round">Guardar</button>
+                                    <div class="row">
+                                        <div class="col-30"></div>
+                                        <button type="submit" class="col-40 button button-fill button-round" style="background-color: #004288; margin-top: 15px;">Guardar</button>
+                                        <div class="col-30"></div>
+                                    </div>
                                 </li>
                             </ul>
                         </form>

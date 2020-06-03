@@ -4,24 +4,32 @@
     <!-- Top Navbar -->
     <div class="navbar">
         <div class="navbar-inner barraNav">
-            <div class="left"><a href="/home/" class="link back"><i class="fas fa-chevron-circle-left"></i></a></div>
+            <div class="left"><a href="/home/" class="link back" style="color: white;"><i class="fas fa-chevron-circle-left"></i></a></div>
         </div>
     </div>
 
     <!-- Bottom Toolbar -->
+    <div class="toolbar toolbar-bottom fblanco">
+        <div class="toolbar-inner" style="background-color: transparent;">
+            <!-- Toolbar links -->
+            <div class="row" style="width: 100%;">
+                <div class="col-100"><img src="img/footer.jpeg" style="width: 100%; height: 10vh;"/></div>
+            </div>
+        </div>
+    </div>
 
     <!-- Scrollable page content -->
     <div class="page-content">
         <div class="block">
-            <div class="divTR"><h1>Encuesta</h1></div>
+            <div class="divTR"><h1 style="color: #004288;">Encuesta</h1></div>
             <form class="list formEncuesta" id="formEncuesta" name="formEncuesta" method="POST" action="javascript:guardarEncuesta()">
                 <ul style="background: transparent;">
                     <li>
                         <div class="item-content item-input">
                             <div class="item-inner">
-                                <div class="item-title item-label">Documento</div>
+                                <div class="item-title item-label" style="font-size: 18px; margin-bottom: 5px;">Documento</div>
                                 <div class="item-input-wrap">
-                                    <input type="text" id="documento" name="documento" placeholder="Documento" required>
+                                    <input style="border: 1px #004288 solid; border-radius: 5px;" type="text" id="documento" name="documento" placeholder="Documento" required>
                                 </div>
                             </div>
                         </div>
@@ -29,19 +37,19 @@
                     <li>
                         <div class="item-content item-input">
                             <div class="item-inner">
-                                <div class="item-title item-label">Nombres</div>
+                                <div class="item-title item-label" style="font-size: 18px; margin-bottom: 5px;">Nombres</div>
                                 <div class="item-input-wrap">
-                                    <input type="text" id="nombres" name="nombres" placeholder="Nombres" required>
+                                    <input style="border: 1px #004288 solid; border-radius: 5px;" type="text" id="nombres" name="nombres" placeholder="Nombres" required>
                                 </div>
                             </div>
                         </div>
                     </li>
                     <li>
-                        <div class="item-content item-input">
+                        <div class="item-content item-input" style="font-size: 18px; margin-bottom: 5px;">
                             <div class="item-inner">
                                 <div class="item-title item-label">Apellidos</div>
                                 <div class="item-input-wrap">
-                                    <input type="text" id="apellidos" name="apellidos" placeholder="Apellidos" required>
+                                    <input style="border: 1px #004288 solid; border-radius: 5px;" type="text" id="apellidos" name="apellidos" placeholder="Apellidos" required>
                                 </div>
                             </div>
                         </div>
@@ -49,9 +57,9 @@
                     <li>
                         <div class="item-content item-input">
                             <div class="item-inner">
-                                <div class="item-title item-label">Temperatura</div>
+                                <div class="item-title item-label" style="font-size: 18px; margin-bottom: 5px;">Temperatura</div>
                                 <div class="item-input-wrap">
-                                    <input type="text" id="temperatura" name="temperatura" placeholder="Temperatura" required>
+                                    <input style="border: 1px #004288 solid; border-radius: 5px;" type="text" id="temperatura" name="temperatura" placeholder="Temperatura" required>
                                 </div>
                             </div>
                         </div>
@@ -171,7 +179,7 @@
                         </label>
                     </li>
                     <li>
-                        <h5>¿Realizo el lavado o desinfección de las manos antes de ingresar a las instalaciones?</h5>
+                        <h5>¿Realizó el lavado o desinfección de las manos antes de ingresar a las instalaciones?</h5>
                     </li>
                     <li>
                         <label class="item-checkbox item-content">
@@ -192,7 +200,11 @@
                         </label>
                     </li>
                     <li>
-                        <button type="submit" class="button button-fill button-round">Guardar</button>
+                        <div class="row">
+                            <div class="col-30"></div>
+                            <button type="submit" class="col-40 button button-fill button-round" style="background-color: #004288; margin-top: 15px;">Guardar</button>
+                            <div class="col-30"></div>
+                        </div>
                     </li>
                 </ul>
             </form>
@@ -340,7 +352,11 @@
                         </label>
                     </li>
                     <li>
-                        <button type="submit" class="button button-fill button-round">Hecho</button>
+                        <div class="row">
+                            <div class="col-30"></div>
+                            <button type="submit" class="col-40 button button-fill button-round" style="background-color: #004288; margin-top: 15px;">Hecho</button>
+                            <div class="col-30"></div>
+                        </div>
                     </li>
                 </ul>
             </form>

@@ -161,9 +161,9 @@ var $$ = Dom7;
 var mainView = app.views.create('.view-main');
 
 //
-var urlServidor = 'http://167.71.248.182/';
+//var urlServidor = 'http://167.71.248.182/';
 //var urlServidor = 'http://192.168.0.12/';
-//var urlServidor = 'http://192.168.1.103/';
+var urlServidor = 'http://192.168.1.103/';
 
 //
 document.addEventListener('deviceready', function () {
@@ -172,13 +172,13 @@ document.addEventListener('deviceready', function () {
     //
     if (localStorage.idUsu !== undefined) {
         //
-        conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
+//        conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
         //
         if (localStorage.rol === 'usuario') {
             //
             if (localStorage.subscrito === 'subscrito') {
                 //
-                desubscribirse(localStorage.nombreEmpresa);
+//                desubscribirse(localStorage.nombreEmpresa);
             }
             //
             $$('#btnHomeMenu').css('display', 'none');
@@ -192,6 +192,12 @@ document.addEventListener('deviceready', function () {
             $$('#btnHome2Menu').css('display', 'none');
             app.views.main.router.navigate('/home/');
         }
+    } else {
+        //
+        $$('#btnHomeMenu').css('display', 'none');
+        $$('#btnHome2Menu').css('display', 'none');
+        $$('#btnFamiliaMenu').css('display', 'none');
+        $$('#btnCerrarSesionMenu').css('display', 'none');
     }
     //
     cordova.plugins.notification.local.setDefaults({
@@ -318,6 +324,7 @@ function login() {
                     $$('#btnHomeMenu').css('display', 'none');
                     $$('#btnFamiliaMenu').css('display', 'none');
                     $$('#btnHome2Menu').css('display', '');
+                    $$('#btnCerrarSesionMenu').css('display', '');
                 } else {
                     //
                     localStorage.subscrito = 'subscrito';
@@ -326,9 +333,10 @@ function login() {
                     $$('#btnHomeMenu').css('display', '');
                     $$('#btnFamiliaMenu').css('display', '');
                     $$('#btnHome2Menu').css('display', 'none');
+                    $$('#btnCerrarSesionMenu').css('display', '');
                 }
                 //
-                conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
+//                conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
                 //
                 setTimeout(function () {
                     //
@@ -376,6 +384,11 @@ function cerrarSesion() {
     //
     delete localStorage.nombreEmpresa;
     //
+    $$('#btnHomeMenu').css('display', 'none');
+    $$('#btnHome2Menu').css('display', 'none');
+    $$('#btnFamiliaMenu').css('display', 'none');
+    $$('#btnCerrarSesionMenu').css('display', 'none');
+    //
     app.views.main.router.navigate('/login/');
 }
 
@@ -404,9 +417,9 @@ function cargarEncuestados() {
                 //
                 for (var i = 0; i < data.length; i++) {
                     //
-                    campos += '<li>';
+                    campos += '<li  class="rowList">';
                     campos += '<div class="item-content">';
-                    campos += '<div class="item-media"><img src="img/user.png" width="45"/></div>';
+                    campos += '<div class="item-media"><img src="img/imgList.png" width="45"/></div>';
                     campos += '<div class="item-inner">';
                     campos += '<div class="item-title-row">';
                     campos += '<div class="item-title">' + data[i]['nombres'] + ' ' + data[i]['apellidos'] + '</div>';
@@ -453,13 +466,13 @@ function cargarAlertas() {
             //
             if (data.length > 0) {
                 //
-                campos1 = '<li style="text-align: center; padding-top: 10px;"><h4 style="margin: 0px;">Alerta!</h4></li>';
+                campos1 = '<li style="text-align: center; padding-top: 10px;"><h4 style="margin: 0px;"><i class="fas fa-exclamation-triangle"></i> Alerta!</h4></li>';
                 //
                 for (var i = 0; i < data.length; i++) {
                     //
-                    campos1 += '<li>';
+                    campos1 += '<li class="rowListA">';
                     campos1 += '<div class="item-content">';
-                    campos1 += '<div class="item-media"><img src="img/user.png" width="45"/></div>';
+                    campos1 += '<div class="item-media"><img src="img/imgList.png" width="45"/></div>';
                     campos1 += '<div class="item-inner">';
                     campos1 += '<div class="item-title-row">';
                     campos1 += '<div class="item-title">' + data[i]['nombres'] + ' ' + data[i]['apellidos'] + '</div>';
@@ -505,12 +518,13 @@ function validarEncuesta() {
             //
             if (data[0].sql === 'Si') {
                 //
-                campos = '<li style="text-align: center;"><h4 style="margin: 0px;">Ya hiciste la encuesta el día de hoy</h4></li>';
+                campos = '<li style="text-align: center;"><img src="img/encuestaR.png" style="width: 100%; border-radius: 5px;"/></li>';
+//                campos = '<li style="text-align: center;"><h4 style="margin: 0px;">Ya hiciste la encuesta el día de hoy</h4></li>';
                 validarSemaforo();
                 //
             } else {
                 //
-                campos = '<li style="text-align: center;"><a href="/encuesta/" onclick="controlEncuesta(1)" class="button button-fill button-round">Hacer encuesta</a></li>';
+                campos = '<li style="text-align: center;"><a href="/encuesta/" onclick="controlEncuesta(1)"><img src="img/encuesta.jpeg" style="width: 100%; border-radius: 5px;"/></a></li>';
             }
         },
         error: function (xhr) {
@@ -550,18 +564,24 @@ function validarSemaforo() {
         success: function (rsp) {
             //
             var data = JSON.parse(rsp);
-            var div = document.getElementById('semaforo');
+//            var div = document.getElementById('semaforo');
+            var semaforo = '';
             //
             if (data[0].sql === 'verde') {
                 //
-                div.style.backgroundColor = 'green';
+//                div.style.backgroundColor = 'green';
+                semaforo = '<img src="img/semaforoV.png" style="width: 100%; height: 20vh;"/>';
             } else if (data[0].sql === 'naranja') {
                 //
-                div.style.backgroundColor = 'orange';
+//                div.style.backgroundColor = 'orange';
+                semaforo = '<img src="img/semaforoN.png" style="width: 100%; height: 20vh;"/>';
             } else {
                 //
-                div.style.backgroundColor = 'red';
+//                div.style.backgroundColor = 'red';
+                semaforo = '<img src="img/semaforoR.png" style="width: 100%; height: 20vh;"/>';
             }
+            //
+            $$('#semaforo').html(semaforo);
         },
         error: function (xhr) {
             console.log(xhr);
@@ -1177,7 +1197,7 @@ function cargarFamiliares() {
                 for (var i = 0; i < data.length; i++) {
                     //
                     var encuesta = '';
-                    campos += '<li>';
+                    campos += '<li class="rowList">';
                     //
                     if (data[i]['encuesta'] === 'Si') {
                         //
@@ -1189,7 +1209,7 @@ function cargarFamiliares() {
                         encuesta = '';
                     }
                     //
-                    campos += '<div class="item-media"><img src="img/user.png" width="45"/></div>';
+                    campos += '<div class="item-media"><img src="img/imgList.png" width="45"/></div>';
                     campos += '<div class="item-inner">';
                     campos += '<div class="item-title-row">';
                     campos += '<div class="item-title">' + data[i]['nombres'] + ' ' + data[i]['apellidos'] + '</div>';

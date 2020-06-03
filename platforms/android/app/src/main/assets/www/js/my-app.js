@@ -192,6 +192,12 @@ document.addEventListener('deviceready', function () {
             $$('#btnHome2Menu').css('display', 'none');
             app.views.main.router.navigate('/home/');
         }
+    } else {
+        //
+        $$('#btnHomeMenu').css('display', 'none');
+        $$('#btnHome2Menu').css('display', 'none');
+        $$('#btnFamiliaMenu').css('display', 'none');
+        $$('#btnCerrarSesionMenu').css('display', 'none');
     }
     //
     cordova.plugins.notification.local.setDefaults({
@@ -318,6 +324,7 @@ function login() {
                     $$('#btnHomeMenu').css('display', 'none');
                     $$('#btnFamiliaMenu').css('display', 'none');
                     $$('#btnHome2Menu').css('display', '');
+                    $$('#btnCerrarSesionMenu').css('display', '');
                 } else {
                     //
                     localStorage.subscrito = 'subscrito';
@@ -326,6 +333,7 @@ function login() {
                     $$('#btnHomeMenu').css('display', '');
                     $$('#btnFamiliaMenu').css('display', '');
                     $$('#btnHome2Menu').css('display', 'none');
+                    $$('#btnCerrarSesionMenu').css('display', '');
                 }
                 //
                 conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
@@ -375,6 +383,11 @@ function cerrarSesion() {
     }
     //
     delete localStorage.nombreEmpresa;
+    //
+    $$('#btnHomeMenu').css('display', 'none');
+    $$('#btnHome2Menu').css('display', 'none');
+    $$('#btnFamiliaMenu').css('display', 'none');
+    $$('#btnCerrarSesionMenu').css('display', 'none');
     //
     app.views.main.router.navigate('/login/');
 }
