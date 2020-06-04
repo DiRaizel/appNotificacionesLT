@@ -161,9 +161,9 @@ var $$ = Dom7;
 var mainView = app.views.create('.view-main');
 
 //
-//var urlServidor = 'http://167.71.248.182/';
+var urlServidor = 'http://167.71.248.182/';
 //var urlServidor = 'http://192.168.0.12/';
-var urlServidor = 'http://192.168.1.103/';
+//var urlServidor = 'http://192.168.1.103/';
 
 //
 document.addEventListener('deviceready', function () {
@@ -172,13 +172,13 @@ document.addEventListener('deviceready', function () {
     //
     if (localStorage.idUsu !== undefined) {
         //
-//        conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
+        conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
         //
         if (localStorage.rol === 'usuario') {
             //
             if (localStorage.subscrito === 'subscrito') {
                 //
-//                desubscribirse(localStorage.nombreEmpresa);
+                desubscribirse(localStorage.nombreEmpresa);
             }
             //
             $$('#btnHomeMenu').css('display', 'none');
@@ -336,7 +336,7 @@ function login() {
                     $$('#btnCerrarSesionMenu').css('display', '');
                 }
                 //
-//                conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
+                conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
                 //
                 setTimeout(function () {
                     //
@@ -481,10 +481,7 @@ function cargarAlertas() {
                     campos1 += '</div></div></li>';
                 }
                 //
-            } else {
-                //
-//                campos1 = '<li style="text-align: center;"><h3>No hay alertas el día de hoy!</h3></li>';
-            }
+            } 
         },
         error: function (xhr) {
             console.log(xhr);
@@ -519,7 +516,6 @@ function validarEncuesta() {
             if (data[0].sql === 'Si') {
                 //
                 campos = '<li style="text-align: center;"><img src="img/encuestaR.png" style="width: 100%; border-radius: 5px;"/></li>';
-//                campos = '<li style="text-align: center;"><h4 style="margin: 0px;">Ya hiciste la encuesta el día de hoy</h4></li>';
                 validarSemaforo();
                 //
             } else {
@@ -547,12 +543,18 @@ var controlE = 0;
 function controlEncuesta(valor) {
     //
     controlE = valor;
+    //
+    if (valor === 1) {
+        //
+        validarMorbilidad();
+    } else {
+        //
+        validarMorbilidadF();
+    }
 }
 
 //
 function validarSemaforo() {
-    //
-//    var color = '';
     //
     app.request({
         url: urlServidor + 'appNotificacionesLTPhp/Read/validarSemaforo',
@@ -564,20 +566,16 @@ function validarSemaforo() {
         success: function (rsp) {
             //
             var data = JSON.parse(rsp);
-//            var div = document.getElementById('semaforo');
             var semaforo = '';
             //
             if (data[0].sql === 'verde') {
                 //
-//                div.style.backgroundColor = 'green';
                 semaforo = '<img src="img/semaforoV.png" style="width: 100%; height: 20vh;"/>';
             } else if (data[0].sql === 'naranja') {
                 //
-//                div.style.backgroundColor = 'orange';
                 semaforo = '<img src="img/semaforoN.png" style="width: 100%; height: 20vh;"/>';
             } else {
                 //
-//                div.style.backgroundColor = 'red';
                 semaforo = '<img src="img/semaforoR.png" style="width: 100%; height: 20vh;"/>';
             }
             //
@@ -778,40 +776,210 @@ function activarCheckP2(valor) {
 var controlG = false;
 
 //
+function validarMorbilidad() {
+    //
+    app.request({
+        url: urlServidor + 'appNotificacionesLTPhp/Read/validarMorbilidad',
+        data: {idUsu: localStorage.idUsu},
+        method: "post",
+        beforeSend: function () {
+            //
+        },
+        success: function (rsp) {
+            //
+            var data = JSON.parse(rsp);
+            //
+            if (data.estado == 'guardada') {
+                //
+                controlG = true;
+            } else {
+                //
+                app.popup.open('.popup-antecedentes', true);
+            }
+            //
+            app.preloader.hide();
+        },
+        error: function (xhr) {
+            controlG = false;
+            console.log(xhr);
+        }
+    });
+}
+
+//
+function validarMorbilidadF() {
+    //
+    app.request({
+        url: urlServidor + 'appNotificacionesLTPhp/Read/validarMorbilidadF',
+        data: {idFam: arrayFamiliares[posFam]['idFam']},
+        method: "post",
+        beforeSend: function () {
+            //
+        },
+        success: function (rsp) {
+            //
+            var data = JSON.parse(rsp);
+            //
+            if (data.estado == 'guardada') {
+                //
+                controlG = true;
+            } else {
+                //
+                app.popup.open('.popup-antecedentes', true);
+            }
+            //
+            app.preloader.hide();
+        },
+        error: function (xhr) {
+            controlG = false;
+            console.log(xhr);
+        }
+    });
+}
+
+//
 function guardarEncuesta() {
     //
-    if (diarrea === 1 || secrecionesNasales === 1 || adinamia === 1 || fiebre === 1 || tos === 1 || cefalea === 1 || dolorGarganta === 1 || malestarGeneral === 1 || dificultadRespiratoria === 1) {
+    if (fiebre === 2 && tos === 2 && cefalea === 2 && dolorGarganta === 2 && malestarGeneral === 2 && dificultadRespiratoria === 2 && adinamia === 2 && secrecionesNasales === 2 && diarrea === 2 && ninguno === 2) {
         //
-        if (controlG === false) {
-            //
-            app.popup.open('.popup-antecedentes', true);
-        }
+        modal = app.dialog.create({
+            title: 'Alerta!',
+            text: 'Selecciona alguna opción en síntomas!',
+            buttons: [{text: 'OK'}]
+        }).open();
     } else {
         //
-        controlG = true;
+        if (controlG) {
+            //
+            var formElement = document.getElementById("formEncuesta");
+            formData = new FormData(formElement);
+            //
+            formData.append('idUsu', localStorage.idUsu);
+            formData.append('empresa', localStorage.empresa);
+            //
+            formData.append('fiebre', fiebre);
+            formData.append('tos', tos);
+            formData.append('cefalea', cefalea);
+            formData.append('dolorGarganta', dolorGarganta);
+            formData.append('malestarGeneral', malestarGeneral);
+            formData.append('dificultadRespiratoria', dificultadRespiratoria);
+            formData.append('adinamia', adinamia);
+            formData.append('secrecionesNasales', secrecionesNasales);
+            formData.append('diarrea', diarrea);
+            formData.append('ninguno', ninguno);
+            //
+            formData.append('pregunta1', pregunta1);
+            formData.append('pregunta2', pregunta2);
+            //
+            var funcion = '';
+            //
+            if (controlE == 1) {
+                //
+                funcion = 'guardarEncuesta';
+            } else {
+                //
+                formData.append('idFam', arrayFamiliares[posFam]['idFam']);
+                funcion = 'guardarEncuestaF';
+            }
+            //
+            app.request({
+                url: urlServidor + 'appNotificacionesLTPhp/Create/' + funcion,
+                data: formData,
+                method: "post",
+                beforeSend: function () {
+                    //
+                    app.preloader.show();
+                },
+                success: function (rsp) {
+                    //
+                    controlG = false;
+                    var data = JSON.parse(rsp);
+                    //
+                    if (data.estado == 'guardada') {
+                        //
+                        setTimeout(function () {
+                            //
+                            app.preloader.hide();
+                            //
+                            var temp = parseFloat($$('#temperatura').val());
+                            //
+                            modal = app.dialog.create({
+                                title: 'Alerta!',
+                                text: 'Encuesta guardada!',
+                                buttons: [{text: 'OK'}]
+                            }).open();
+                            //
+                            if (localStorage.rol === 'usuario') {
+                                //
+                                if (temp > 37) {
+                                    //
+                                    enviarAlarma(temp);
+                                }
+                                //
+                                app.views.main.router.navigate('/home2/');
+                            } else {
+                                //
+                                if (funcion === 'guardarEncuestaF') {
+                                    //
+                                    app.views.main.router.navigate('/familia/');
+                                } else {
+                                    //
+                                    app.views.main.router.navigate('/home/');
+                                }
+                            }
+                        }, 500);
+                    } else {
+                        //
+                        app.preloader.hide();
+                        modal = app.dialog.create({
+                            title: 'Alerta!',
+                            text: 'Error al guardar la encuesta!',
+                            buttons: [{text: 'OK'}]
+                        }).open();
+                    }
+                },
+                error: function (xhr) {
+                    controlG = false;
+                    console.log(xhr);
+                }
+            });
+            //
+            fiebre = 2;
+            tos = 2;
+            cefalea = 2;
+            dolorGarganta = 2;
+            malestarGeneral = 2;
+            dificultadRespiratoria = 2;
+            adinamia = 2;
+            secrecionesNasales = 2;
+            diarrea = 2;
+            ninguno = 2;
+        }
     }
+}
+
+//
+var controlMor = false;
+
+//
+function guardarMorbilidad(valor) {
     //
-    if (controlG) {
+    if (ningunoA === 2 && fumador === 2 && desnutricion === 2 && sobrepeso === 2 && cancer === 2 && inmunodeficiencia === 2 && corticoides === 2 && enfermedadesAutoinmunes === 2 && otroProblemasPulmonares === 2 && hipotiroidismo === 2 && enfermedadPulmonar === 2 && fallaRenal === 2 && diabetes === 2 && hipertencion === 2 && enfermedadesCorazon === 2) {
         //
-        var formElement = document.getElementById("formEncuesta");
+        modal = app.dialog.create({
+            title: 'Alerta!',
+            text: 'Selecciona alguna opción!',
+            buttons: [{text: 'OK'}]
+        }).open();
+    } else {
+        //
+        var funcion = '';
+        //
+        var formElement = document.getElementById("formAntecedentes");
         formData = new FormData(formElement);
         //
         formData.append('idUsu', localStorage.idUsu);
         formData.append('empresa', localStorage.empresa);
-        //
-        formData.append('fiebre', fiebre);
-        formData.append('tos', tos);
-        formData.append('cefalea', cefalea);
-        formData.append('dolorGarganta', dolorGarganta);
-        formData.append('malestarGeneral', malestarGeneral);
-        formData.append('dificultadRespiratoria', dificultadRespiratoria);
-        formData.append('adinamia', adinamia);
-        formData.append('secrecionesNasales', secrecionesNasales);
-        formData.append('diarrea', diarrea);
-        formData.append('ninguno', ninguno);
-        //
-        formData.append('pregunta1', pregunta1);
-        formData.append('pregunta2', pregunta2);
         //
         formData.append('diabetes', diabetes);
         formData.append('hipertencion', hipertencion);
@@ -829,15 +997,13 @@ function guardarEncuesta() {
         formData.append('fumador', fumador);
         formData.append('ningunoA', ningunoA);
         //
-        var funcion = '';
-        //
-        if (controlE == 1) {
+        if (valor === 1) {
             //
-            funcion = 'guardarEncuesta';
+            funcion = 'guardarMorbilidad';
         } else {
             //
+            funcion = 'guardarMorbilidadF';
             formData.append('idFam', arrayFamiliares[posFam]['idFam']);
-            funcion = 'guardarEncuestaF';
         }
         //
         app.request({
@@ -850,48 +1016,27 @@ function guardarEncuesta() {
             },
             success: function (rsp) {
                 //
-                controlG = false;
+                controlG = true;
                 var data = JSON.parse(rsp);
                 //
                 if (data.estado == 'guardada') {
                     //
-                    setTimeout(function () {
-                        //
-                        app.preloader.hide();
-                        //
-                        var temp = parseFloat($$('#temperatura').val());
-                        //
-                        modal = app.dialog.create({
-                            title: 'Alerta!',
-                            text: 'Encuesta guardada!',
-                            buttons: [{text: 'OK'}]
-                        }).open();
-                        //
-                        if (localStorage.rol === 'usuario') {
-                            //
-                            if (temp > 37) {
-                                //
-                                enviarAlarma(temp);
-                            }
-                            //
-                            app.views.main.router.navigate('/home2/');
-                        } else {
-                            //
-                            if (funcion === 'guardarEncuestaF') {
-                                //
-                                app.views.main.router.navigate('/familia/');
-                            } else {
-                                //
-                                app.views.main.router.navigate('/home/');
-                            }
-                        }
-                    }, 500);
+                    app.preloader.hide();
+                    //
+                    var toastBottom = app.toast.create({
+                        text: 'Guardado!',
+                        closeTimeout: 2000
+                    });
+                    //
+                    toastBottom.open();
+                    //
+                    app.popup.close('.popup-antecedentes', true);
                 } else {
                     //
                     app.preloader.hide();
                     modal = app.dialog.create({
                         title: 'Alerta!',
-                        text: 'Error al guardar la encuesta!',
+                        text: 'Error al guardar!',
                         buttons: [{text: 'OK'}]
                     }).open();
                 }
@@ -901,17 +1046,6 @@ function guardarEncuesta() {
                 console.log(xhr);
             }
         });
-        //
-        fiebre = 2;
-        tos = 2;
-        cefalea = 2;
-        dolorGarganta = 2;
-        malestarGeneral = 2;
-        dificultadRespiratoria = 2;
-        adinamia = 2;
-        secrecionesNasales = 2;
-        diarrea = 2;
-        ninguno = 2;
         //
         diabetes = 2;
         hipertencion = 2;
@@ -1143,14 +1277,6 @@ function deshabilitarNingunoA() {
 }
 
 //
-function cerrarPopupAntecedentes() {
-    //
-    controlG = true;
-    app.popup.close('.popup-antecedentes', true);
-    guardarEncuesta();
-}
-
-//
 function enviarAlarma(valor) {
     //
     cordova.plugins.CordovaMqTTPlugin.publish({
@@ -1242,6 +1368,7 @@ function cargarEncuestaFamiliar(valor) {
     //
     posFam = valor;
     controlE = 2;
+    validarMorbilidadF();
 }
 
 //
