@@ -1,11 +1,11 @@
 {
   "background_color": "#FFF",
   "display": "standalone",
-  "name": "appNotificacionesLT",
-  "short_name": "appNotificacionesLT",
+  "name": "Encuesta",
+  "short_name": "Encuesta",
   "version": "com.appNotificacionesLT",
-  "description": "A sample Apache Cordova application that responds to the deviceready event.",
-  "author": "Apache Cordova Team",
+  "description": "App de encuestas y monitoreo Covid-19.",
+  "author": "Ingetronik.com",
   "icons": [
     {
       "src": "www/img/logo.png",

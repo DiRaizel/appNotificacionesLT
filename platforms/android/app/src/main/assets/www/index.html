@@ -71,27 +71,42 @@
                 <div data-name="login" class="page" style="">
 
                     <!-- Top Navbar -->
+                    <div class="navbar">
+                        <div class="navbar-inner barraNav"></div>
+                    </div>
 
                     <!-- Bottom Toolbar -->
+                    <div class="toolbar toolbar-bottom barraNav">
+                        <!--                        <div class="toolbar-inner" style="background-color: transparent;">
+                                                     Toolbar links 
+                                                    <div class="row barraNav" style="width: 100%;"></div>
+                                                </div>-->
+                    </div>
 
                     <!-- Scrollable page content -->
                     <div class="page-content">
                         <div class="block" style="padding: 0px;">
                             <div class="row">
                                 <div class="col-100" style="text-align: center;">
-                                    <img class="imgLogin" src="img/LogoIngetronikVisualizador.png">
-                                    <h3>Login</h3>
+                                    <div class="row" style="margin-bottom: 0px;">
+                                        <!--<div class="block" style="margin: 0px; width: 100%;">-->
+                                            <div class="col-10"></div>
+                                            <div class="col-80"><img class="imgLogin" style="width: 100%;" src="img/logoLogin.png"></div>
+                                            <div class="col-10"></div>
+                                        <!--</div>-->
+                                    </div>
+                                    <h1 style="color: #004288; margin: 0px;">Login</h1>
                                 </div>
                             </div>
                             <div class="row block" style="align-items: center; margin: 0px;">
-                                <form class="col-100 list formLogin" id="formLogin" name="formLogin" method="POST" action="javascript:login()">
+                                <form style="margin-top: 15px;" class="col-100 list formLogin" id="formLogin" name="formLogin" method="POST" action="javascript:login()">
                                     <ul style="background: transparent;">
                                         <li>
                                             <div class="col-100 item-content item-input">
                                                 <div class="item-inner">
-                                                    <div class="item-title item-label">Correo</div>
+                                                    <div class="item-title item-label" style="font-size: 18px; margin-bottom: 5px;">Correo</div>
                                                     <div class="item-input-wrap">
-                                                        <input type="email" id="correo" name="correo" placeholder="Correo" required>
+                                                        <input style="border: 1px #004288 solid; border-radius: 5px;" type="email" id="correo" name="correo" placeholder="Correo" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -99,15 +114,19 @@
                                         <li>
                                             <div class="item-content item-input">
                                                 <div class="item-inner">
-                                                    <div class="item-title item-label" style="">Contraseña</div>
+                                                    <div class="item-title item-label" style="font-size: 18px; margin-bottom: 5px;">Contraseña</div>
                                                     <div class="item-input-wrap">
-                                                        <input type="password" id="password" name="password" placeholder="Contraseña" required>
+                                                        <input style="border: 1px #004288 solid; border-radius: 5px;" type="password" id="password" name="password" placeholder="Contraseña" required>
                                                     </div>
                                                 </div>
                                             </div>
                                         </li>
                                         <li>
-                                            <button type="submit" class="button button-fill button-round">Entrar</button>
+                                            <div class="row">
+                                                <div class="col-30"></div>
+                                                <button type="submit" class="col-40 button button-fill button-round" style="background-color: #004288; margin-top: 15px;">Entrar</button>
+                                                <div class="col-30"></div>
+                                            </div>
                                         </li>
                                     </ul>
                                 </form>

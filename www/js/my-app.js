@@ -172,8 +172,6 @@ document.addEventListener('deviceready', function () {
     //
     if (localStorage.idUsu !== undefined) {
         //
-        conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
-        //
         if (localStorage.rol === 'usuario') {
             //
             if (localStorage.subscrito === 'subscrito') {
@@ -192,6 +190,8 @@ document.addEventListener('deviceready', function () {
             $$('#btnHome2Menu').css('display', 'none');
             app.views.main.router.navigate('/home/');
         }
+        //
+        conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
     } else {
         //
         $$('#btnHomeMenu').css('display', 'none');
@@ -417,7 +417,17 @@ function cargarEncuestados() {
                 //
                 for (var i = 0; i < data.length; i++) {
                     //
-                    campos += '<li  class="rowList">';
+                    var colorRow = '';
+                    //
+                    if (data[i]['morbilidad'] === 'Si') {
+                        //
+                        colorRow = 'rowList2';
+                    } else {
+                        //
+                        colorRow = 'rowList';
+                    }
+                    //
+                    campos += '<li  class="' + colorRow + '">';
                     campos += '<div class="item-content">';
                     campos += '<div class="item-media"><img src="img/imgList.png" width="45"/></div>';
                     campos += '<div class="item-inner">';
@@ -481,7 +491,7 @@ function cargarAlertas() {
                     campos1 += '</div></div></li>';
                 }
                 //
-            } 
+            }
         },
         error: function (xhr) {
             console.log(xhr);
@@ -516,6 +526,7 @@ function validarEncuesta() {
             if (data[0].sql === 'Si') {
                 //
                 campos = '<li style="text-align: center;"><img src="img/encuestaR.png" style="width: 100%; border-radius: 5px;"/></li>';
+                //
                 validarSemaforo();
                 //
             } else {
@@ -570,6 +581,7 @@ function validarSemaforo() {
             //
             if (data[0].sql === 'verde') {
                 //
+                console.log('holas');
                 semaforo = '<img src="img/semaforoV.png" style="width: 100%; height: 20vh;"/>';
             } else if (data[0].sql === 'naranja') {
                 //

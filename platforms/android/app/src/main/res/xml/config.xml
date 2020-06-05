@@ -19,12 +19,12 @@
     <feature name="Badge">
         <param name="android-package" value="de.appplant.cordova.plugin.badge.Badge" />
     </feature>
-    <name>appNotificacionesLT</name>
+    <name>Encuesta</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        App de encuestas y monitoreo Covid-19.
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="dev@cordova.apache.org" href="http://ingretronik.com">
+       Ingetronik.com
     </author>
     <content src="index.html" />
     <access origin="*" />

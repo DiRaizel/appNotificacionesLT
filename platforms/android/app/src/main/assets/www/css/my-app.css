@@ -1,13 +1,37 @@
-.page-content, .popupLogin{
-    background-image: url("../img/Fondo Sistema de turnos-Azul.jpg");
-    /*    background-size: 100%;
-        background-repeat: no-repeat;*/
+.page-content, .fondo{
+    background-image: url("../img/fondo.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
 
-.fondo{
-    background-image: url("../img/Fondo Sistema de turnos-Azul.jpg");
-    /*    background-size: 100%;
-        background-repeat: no-repeat;*/
+.rowList{
+    border: 1px #004288 solid;
+    border-radius: 10px;
+    margin-top: 2px;
+}
+
+.rowList2{
+    border: 1px #FFC107 solid;
+    border-radius: 10px;
+    margin-top: 2px;
+}
+
+.rowListA{
+    border: 1px red solid;
+    border-radius: 10px;
+    margin-top: 2px;
+}
+
+.barraNav{
+    background-color: #004288;
+}
+
+.colorTexto{
+    color: white;
+}
+
+.icon-checkbox{
+    border: 1px #004288 solid;
 }
 
 .icono{
@@ -37,15 +61,11 @@
 .imgLogin{
     height: 20vh;
     width: 80vw;
-    /*padding-left: 25vw;*/
-    /*border-radius: 50%;*/
-    /*display: block;*/
 }
 
 /*---------------------------------Home---------------------------------------*/
 
 .logo{
-    /*padding-left: 20vw;*/
     height: 15vh;
     width: 100%;
 }
