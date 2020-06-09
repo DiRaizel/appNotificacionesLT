@@ -256,7 +256,7 @@ function subscribirse(valor) {
                 if (payload !== '' && payload !== null && payload !== undefined) {
                     //
                     cordova.plugins.notification.local.schedule({
-                        title: 'Alerta!',
+                        title: 'Atención!',
                         text: 'Personal con temperatura elevada de ' + payload,
                         foreground: true,
 //                        smallIcon: 'res://calendar',
@@ -308,6 +308,7 @@ function login() {
         success: function (rsp) {
             //
             var data = JSON.parse(rsp);
+            var controlL = false;
             //
             if (data.estado == 'Entra') {
                 //
@@ -319,26 +320,76 @@ function login() {
                 localStorage.empresa = data.idEmp;
                 localStorage.nombreEmpresa = data.empresa;
                 //
-                if (data.rol === 'usuario') {
+                if (data.estadoP === 'Recuperando') {
                     //
-                    $$('#btnHomeMenu').css('display', 'none');
-                    $$('#btnFamiliaMenu').css('display', 'none');
-                    $$('#btnHome2Menu').css('display', '');
-                    $$('#btnCerrarSesionMenu').css('display', '');
+                    app.preloader.hide();
+                    //
+                    app.dialog.prompt('Ingresa nueva contraseña', 'Atención!', function (pass) {
+                        //
+                        app.request({
+                            url: urlServidor + 'appNotificacionesLTPhp/Update/actualizarPass',
+                            data: {pass: pass, idUsu: data.idUsu},
+                            method: "post",
+                            beforeSend: function () {
+                                //
+                                app.preloader.show();
+                            },
+                            success: function (rsp) {
+                                //
+                                var data = JSON.parse(rsp);
+                                //
+                                if (data === 'Actualizada') {
+                                    //
+                                    controlL = true;
+                                } else {
+                                    //
+                                    app.preloader.hide();
+                                    modal = app.dialog.create({
+                                        title: 'Atención!',
+                                        text: 'Error al actualizar la contraseña!',
+                                        buttons: [{text: 'OK'}]
+                                    }).open();
+                                }
+                            },
+                            error: function (xhr) {
+                                console.log(xhr);
+                                app.preloader.hide();
+                                modal = app.dialog.create({
+                                    title: 'Atención!',
+                                    text: 'Error de conexión!',
+                                    buttons: [{text: 'OK'}]
+                                }).open();
+                            },
+                            complete: function () {
+                                //
+                            }
+                        });
+                    });
                 } else {
                     //
-                    localStorage.subscrito = 'subscrito';
-                    subs = 'subscrito';
-                    //
-                    $$('#btnHomeMenu').css('display', '');
-                    $$('#btnFamiliaMenu').css('display', '');
-                    $$('#btnHome2Menu').css('display', 'none');
-                    $$('#btnCerrarSesionMenu').css('display', '');
+                    controlL = true;
                 }
                 //
-                conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
-                //
-                setTimeout(function () {
+                if (controlL) {
+                    //
+                    if (data.rol === 'usuario') {
+                        //
+                        $$('#btnHomeMenu').css('display', 'none');
+                        $$('#btnFamiliaMenu').css('display', 'none');
+                        $$('#btnHome2Menu').css('display', '');
+                        $$('#btnCerrarSesionMenu').css('display', '');
+                    } else {
+                        //
+                        localStorage.subscrito = 'subscrito';
+                        subs = 'subscrito';
+                        //
+                        $$('#btnHomeMenu').css('display', '');
+                        $$('#btnFamiliaMenu').css('display', '');
+                        $$('#btnHome2Menu').css('display', 'none');
+                        $$('#btnCerrarSesionMenu').css('display', '');
+                    }
+                    //
+                    conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
                     //
                     app.preloader.hide();
                     //
@@ -349,12 +400,12 @@ function login() {
                         //
                         app.views.main.router.navigate('/home/');
                     }
-                }, 500);
+                }
             } else {
                 //
                 app.preloader.hide();
                 modal = app.dialog.create({
-                    title: 'Alerta!',
+                    title: 'Atención!',
                     text: 'El correo ingresado no se encuentra registrado o la contraseña es incorrecta.',
                     buttons: [{text: 'OK'}]
                 }).open();
@@ -363,7 +414,12 @@ function login() {
         error: function (xhr, e) {
             app.preloader.hide();
             console.log(xhr);
-            alert(JSON.stringify(xhr) + ' _ ' + JSON.stringify(e) + ' ' + $$('#correo').val() + ' - ' + $$('#password').val());
+//            alert(JSON.stringify(xhr) + ' _ ' + JSON.stringify(e) + ' ' + $$('#correo').val() + ' - ' + $$('#password').val());
+            modal = app.dialog.create({
+                title: 'Atención!',
+                text: 'Error de conexión!',
+                buttons: [{text: 'OK'}]
+            }).open();
         }
     });
 }
@@ -390,6 +446,54 @@ function cerrarSesion() {
     $$('#btnCerrarSesionMenu').css('display', 'none');
     //
     app.views.main.router.navigate('/login/');
+}
+
+//
+function recuperarPass() {
+    //
+    app.dialog.prompt('Ingresa el correo', 'Atención!', function (correo) {
+        //
+        app.request({
+            url: urlServidor + 'appNotificacionesLTPhp/Read/recuperarPass',
+            data: {correo: correo},
+            method: "POST",
+            beforeSend: function () {
+                //
+                app.preloader.show();
+            },
+            success: function (rsp) {
+                //
+                app.preloader.hide();
+                var data = JSON.parse(rsp);
+                //
+                if (data == 'Enviado') {
+                    //
+                    app.preloader.hide();
+                    //
+                    modal = app.dialog.create({
+                        title: 'Atención!',
+                        text: 'La contraseña ha sido enviada al correo ingresado!',
+                        buttons: [{text: 'OK'}]
+                    }).open();
+                } else {
+                    //
+                    modal = app.dialog.create({
+                        title: 'Atención!',
+                        text: 'El correo ingresado no se encuentra registrado!',
+                        buttons: [{text: 'OK'}]
+                    }).open();
+                }
+            },
+            error: function (xhr, e) {
+                app.preloader.hide();
+                modal = app.dialog.create({
+                    title: 'Atención!',
+                    text: 'Error de conexión!',
+                    buttons: [{text: 'OK'}]
+                }).open();
+            }
+        });
+    });
 }
 
 //---------------------------------Home-----------------------------------------
@@ -445,6 +549,12 @@ function cargarEncuestados() {
         },
         error: function (xhr) {
             console.log(xhr);
+            app.preloader.hide();
+            modal = app.dialog.create({
+                title: 'Atención!',
+                text: 'Error de conexión!',
+                buttons: [{text: 'OK'}]
+            }).open();
         },
         complete: function () {
             //
@@ -476,7 +586,7 @@ function cargarAlertas() {
             //
             if (data.length > 0) {
                 //
-                campos1 = '<li style="text-align: center; padding-top: 10px;"><h4 style="margin: 0px;"><i class="fas fa-exclamation-triangle"></i> Alerta!</h4></li>';
+                campos1 = '<li style="text-align: center; padding-top: 10px;"><h4 style="margin: 0px;"><i class="fas fa-exclamation-triangle"></i> Atención!</h4></li>';
                 //
                 for (var i = 0; i < data.length; i++) {
                     //
@@ -495,6 +605,7 @@ function cargarAlertas() {
         },
         error: function (xhr) {
             console.log(xhr);
+            app.preloader.hide();
         },
         complete: function () {
             //
@@ -808,8 +919,6 @@ function validarMorbilidad() {
                 //
                 app.popup.open('.popup-antecedentes', true);
             }
-            //
-            app.preloader.hide();
         },
         error: function (xhr) {
             controlG = false;
@@ -839,8 +948,6 @@ function validarMorbilidadF() {
                 //
                 app.popup.open('.popup-antecedentes', true);
             }
-            //
-            app.preloader.hide();
         },
         error: function (xhr) {
             controlG = false;
@@ -855,7 +962,7 @@ function guardarEncuesta() {
     if (fiebre === 2 && tos === 2 && cefalea === 2 && dolorGarganta === 2 && malestarGeneral === 2 && dificultadRespiratoria === 2 && adinamia === 2 && secrecionesNasales === 2 && diarrea === 2 && ninguno === 2) {
         //
         modal = app.dialog.create({
-            title: 'Alerta!',
+            title: 'Atención!',
             text: 'Selecciona alguna opción en síntomas!',
             buttons: [{text: 'OK'}]
         }).open();
@@ -916,7 +1023,7 @@ function guardarEncuesta() {
                             var temp = parseFloat($$('#temperatura').val());
                             //
                             modal = app.dialog.create({
-                                title: 'Alerta!',
+                                title: 'Atención!',
                                 text: 'Encuesta guardada!',
                                 buttons: [{text: 'OK'}]
                             }).open();
@@ -944,7 +1051,7 @@ function guardarEncuesta() {
                         //
                         app.preloader.hide();
                         modal = app.dialog.create({
-                            title: 'Alerta!',
+                            title: 'Atención!',
                             text: 'Error al guardar la encuesta!',
                             buttons: [{text: 'OK'}]
                         }).open();
@@ -953,6 +1060,12 @@ function guardarEncuesta() {
                 error: function (xhr) {
                     controlG = false;
                     console.log(xhr);
+                    app.preloader.hide();
+                    modal = app.dialog.create({
+                        title: 'Atención!',
+                        text: 'Error de conexión!',
+                        buttons: [{text: 'OK'}]
+                    }).open();
                 }
             });
             //
@@ -979,7 +1092,7 @@ function guardarMorbilidad(valor) {
     if (ningunoA === 2 && fumador === 2 && desnutricion === 2 && sobrepeso === 2 && cancer === 2 && inmunodeficiencia === 2 && corticoides === 2 && enfermedadesAutoinmunes === 2 && otroProblemasPulmonares === 2 && hipotiroidismo === 2 && enfermedadPulmonar === 2 && fallaRenal === 2 && diabetes === 2 && hipertencion === 2 && enfermedadesCorazon === 2) {
         //
         modal = app.dialog.create({
-            title: 'Alerta!',
+            title: 'Atención!',
             text: 'Selecciona alguna opción!',
             buttons: [{text: 'OK'}]
         }).open();
@@ -1047,7 +1160,7 @@ function guardarMorbilidad(valor) {
                     //
                     app.preloader.hide();
                     modal = app.dialog.create({
-                        title: 'Alerta!',
+                        title: 'Atención!',
                         text: 'Error al guardar!',
                         buttons: [{text: 'OK'}]
                     }).open();
@@ -1056,6 +1169,12 @@ function guardarMorbilidad(valor) {
             error: function (xhr) {
                 controlG = false;
                 console.log(xhr);
+                app.preloader.hide();
+                modal = app.dialog.create({
+                    title: 'Atención!',
+                    text: 'Error de conexión!',
+                    buttons: [{text: 'OK'}]
+                }).open();
             }
         });
         //
@@ -1360,6 +1479,12 @@ function cargarFamiliares() {
         },
         error: function (xhr) {
             console.log(xhr);
+            app.preloader.hide();
+            modal = app.dialog.create({
+                title: 'Atención!',
+                text: 'Error de conexión!',
+                buttons: [{text: 'OK'}]
+            }).open();
         },
         complete: function () {
             //
@@ -1403,30 +1528,33 @@ function guardarFamiliar() {
         success: function (rsp) {
             //
             var data = JSON.parse(rsp);
+            app.preloader.hide();
             //
             if (data.estado == 'guardado') {
                 //
                 cargarFamiliares();
                 //
-                setTimeout(function () {
-                    //
-                    app.preloader.hide();
-                    //
-                    modal = app.dialog.create({
-                        title: 'Alerta!',
-                        text: 'Familiar guardado!',
-                        buttons: [{text: 'OK'}]
-                    }).open();
-                    //
-                    app.popup.close('.popupFamiliar', true);
-                    //
-                    $$('#formFamiliar')[0].reset();
-                }, 500);
+                modal = app.dialog.create({
+                    title: 'Atención!',
+                    text: 'Familiar guardado!',
+                    buttons: [{text: 'OK'}]
+                }).open();
+                //
+                app.popup.close('.popupFamiliar', true);
+                //
+                $$('#formFamiliar')[0].reset();
+                //
+            } else if (data.estado === 'usuario') {
+                //
+                modal = app.dialog.create({
+                    title: 'Atención!',
+                    text: 'Eres usuario principal, no puedes agregarte como familiar!',
+                    buttons: [{text: 'OK'}]
+                }).open();
             } else {
                 //
-                app.preloader.hide();
                 modal = app.dialog.create({
-                    title: 'Alerta!',
+                    title: 'Atención!',
                     text: 'Error al guardar la familiar!',
                     buttons: [{text: 'OK'}]
                 }).open();
@@ -1435,6 +1563,12 @@ function guardarFamiliar() {
         error: function (xhr) {
             controlG = false;
             console.log(xhr);
+            app.preloader.hide();
+            modal = app.dialog.create({
+                title: 'Atención!',
+                text: 'Error de conexión!',
+                buttons: [{text: 'OK'}]
+            }).open();
         }
     });
 }
