@@ -308,7 +308,6 @@ function login() {
         success: function (rsp) {
             //
             var data = JSON.parse(rsp);
-            var controlL = false;
             //
             if (data.estado == 'Entra') {
                 //
@@ -334,13 +333,38 @@ function login() {
                                 //
                                 app.preloader.show();
                             },
-                            success: function (rsp) {
+                            success: function (rsp2) {
                                 //
-                                var data = JSON.parse(rsp);
-                                //
-                                if (data === 'Actualizada') {
+                                if (rsp2 === 'Actualizada') {
                                     //
-                                    controlL = true;
+                                    if (data.rol === 'usuario') {
+                                        //
+                                        $$('#btnHomeMenu').css('display', 'none');
+                                        $$('#btnFamiliaMenu').css('display', 'none');
+                                        $$('#btnHome2Menu').css('display', '');
+                                        $$('#btnCerrarSesionMenu').css('display', '');
+                                    } else {
+                                        //
+                                        localStorage.subscrito = 'subscrito';
+                                        subs = 'subscrito';
+                                        //
+                                        $$('#btnHomeMenu').css('display', '');
+                                        $$('#btnFamiliaMenu').css('display', '');
+                                        $$('#btnHome2Menu').css('display', 'none');
+                                        $$('#btnCerrarSesionMenu').css('display', '');
+                                    }
+                                    //
+                                    conectarMqtt(localStorage.idUsu, localStorage.nombreEmpresa);
+                                    //
+                                    app.preloader.hide();
+                                    //
+                                    if (data.rol === 'usuario') {
+                                        //
+                                        app.views.main.router.navigate('/home2/');
+                                    } else {
+                                        //
+                                        app.views.main.router.navigate('/home/');
+                                    }
                                 } else {
                                     //
                                     app.preloader.hide();
@@ -366,11 +390,6 @@ function login() {
                         });
                     });
                 } else {
-                    //
-                    controlL = true;
-                }
-                //
-                if (controlL) {
                     //
                     if (data.rol === 'usuario') {
                         //
@@ -464,9 +483,8 @@ function recuperarPass() {
             success: function (rsp) {
                 //
                 app.preloader.hide();
-                var data = JSON.parse(rsp);
                 //
-                if (data == 'Enviado') {
+                if (rsp == 'Enviado') {
                     //
                     app.preloader.hide();
                     //
