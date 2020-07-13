@@ -5,7 +5,7 @@
         App de encuestas y monitoreo Covid-19.
     </description>
     <author email="dev@cordova.apache.org" href="http://ingretronik.com">
-       Ingetronik.com
+       Raizel
     </author>
     <content src="index.html" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
