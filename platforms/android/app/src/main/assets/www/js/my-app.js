@@ -161,14 +161,26 @@ var $$ = Dom7;
 var mainView = app.views.create('.view-main');
 
 //
-var urlServidor = 'http://167.71.248.182/';
-//var urlServidor = 'http://192.168.1.11/';
-//var urlServidor = 'http://192.168.1.103/';
+var urlServidor = '';
 
 //
 document.addEventListener('deviceready', function () {
     //
     setTimeout("show5()", 1000);
+    //
+    if (localStorage.ipServidor === undefined) {
+        //
+        app.dialog.prompt('Ej: https://miservidor.com/', 'Url Servidor?', function (url) {
+            //
+            localStorage.ipServidor = url;
+            urlServidor = url;
+        });
+        //
+        $$('.dialog-input').focus();
+    } else {
+        //
+        urlServidor = localStorage.ipServidor;
+    }
     //
     if (localStorage.idUsu !== undefined) {
         //
@@ -211,6 +223,18 @@ document.addEventListener('deviceready', function () {
         localStorage.sdoPlano = '2doPlano';
     }
 }, false);
+
+//
+function editarIpServidor() {
+    //
+    app.dialog.prompt('Ej: https://miservidor.com/', 'Url Servidor', function (url) {
+        //
+        localStorage.ipServidor = url;
+        urlServidor = url;
+    });
+    //
+    $$('.dialog-input').focus();
+}
 
 //
 function conectarMqtt(valor, valor2) {
