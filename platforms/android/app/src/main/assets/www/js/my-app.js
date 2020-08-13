@@ -170,7 +170,7 @@ document.addEventListener('deviceready', function () {
     //
     if (localStorage.ipServidor === undefined) {
         //
-        app.dialog.prompt('Ej: https://miservidor.com/', 'Url Servidor?', function (url) {
+        app.dialog.prompt('Ej: https://miservidor.com/', 'Url Servidor', function (url) {
             //
             localStorage.ipServidor = url;
             urlServidor = url;
